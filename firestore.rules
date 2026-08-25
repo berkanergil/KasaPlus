@@ -1,0 +1,120 @@
+rules_version = '2';
+
+// Kasa+ — Firestore Güvenlik Kuralları
+//
+// Veri şeması:
+//   users/{userID}/transactions/{transactionID}
+//   users/{userID}/categories/{categoryID}
+//   users/{userID}/banks/{bankID}
+//   users/{userID}/plannedPayments/{plannedPaymentID}
+//
+// Temel ilke: Bir kullanıcı YALNIZCA kendi userID'si altındaki dokümanları
+// okuyabilir ve yazabilir. Firebase Auth UID'si ile yol segmenti eşleşmelidir.
+//
+// Kurulum: Firebase Console → Firestore Database → Rules → bu içeriği yapıştırın
+// → "Publish". (Ya da `firebase deploy --only firestore:rules`.)
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Yardımcı: istek sahibi bu kullanıcı mı?
+    function isOwner(userID) {
+      return request.auth != null && request.auth.uid == userID;
+    }
+
+    // Yardımcı: gelen dokümanın userID alanı yol ile tutarlı mı?
+    function payloadMatchesOwner(userID) {
+      return request.resource.data.userID == userID;
+    }
+
+    // Yardımcı: zorunlu alanlar var mı?
+    function hasTransactionShape() {
+      return request.resource.data.keys().hasAll(
+               ['id', 'amount', 'date', 'type', 'currency',
+                'paymentMethod', 'categoryID', 'userID', 'updatedAt', 'isDeleted'])
+             && request.resource.data.amount is number
+             && request.resource.data.amount >= 0
+             && request.resource.data.type in ['income', 'expense']
+             && request.resource.data.isDeleted is bool
+             && request.resource.data.updatedAt is number;
+    }
+
+    function hasCategoryShape() {
+      return request.resource.data.keys().hasAll(
+               ['id', 'name', 'iconName', 'colorHex', 'type',
+                'userID', 'updatedAt', 'isDeleted'])
+             && request.resource.data.name is string
+             && request.resource.data.name.size() > 0
+             && request.resource.data.name.size() <= 60
+             && request.resource.data.type in ['income', 'expense']
+             && request.resource.data.updatedAt is number;
+    }
+
+    function hasBankShape() {
+      return request.resource.data.keys().hasAll(
+               ['id', 'name', 'userID', 'updatedAt', 'isDeleted'])
+             && request.resource.data.name is string
+             && request.resource.data.name.size() > 0
+             && request.resource.data.name.size() <= 80
+             && request.resource.data.updatedAt is number;
+    }
+
+    function hasPlannedPaymentShape() {
+      return request.resource.data.keys().hasAll(
+               ['id', 'title', 'amount', 'currency', 'dueDate', 'categoryID',
+                'paymentMethod', 'status', 'userID', 'updatedAt', 'isDeleted'])
+             && request.resource.data.title is string
+             && request.resource.data.title.size() > 0
+             && request.resource.data.title.size() <= 120
+             && request.resource.data.amount is number
+             && request.resource.data.amount >= 0
+             && request.resource.data.dueDate is number
+             && request.resource.data.status in ['pending', 'paid', 'cancelled']
+             && request.resource.data.updatedAt is number;
+    }
+
+    match /users/{userID} {
+      // Kullanıcı kök dokümanı (şimdilik kullanılmıyor, ileride profil için)
+      allow read, write: if isOwner(userID);
+
+      match /transactions/{transactionID} {
+        allow read: if isOwner(userID);
+        allow create, update: if isOwner(userID)
+                              && payloadMatchesOwner(userID)
+                              && hasTransactionShape();
+        // Silme uygulamada "isDeleted = true" ile yapılır (senkronizasyon için
+        // mezar taşı gerekir). Yine de sahibin gerçek silme hakkı korunur.
+        allow delete: if isOwner(userID);
+      }
+
+      match /categories/{categoryID} {
+        allow read: if isOwner(userID);
+        allow create, update: if isOwner(userID)
+                              && payloadMatchesOwner(userID)
+                              && hasCategoryShape();
+        allow delete: if isOwner(userID);
+      }
+
+      match /banks/{bankID} {
+        allow read: if isOwner(userID);
+        allow create, update: if isOwner(userID)
+                              && payloadMatchesOwner(userID)
+                              && hasBankShape();
+        allow delete: if isOwner(userID);
+      }
+
+      match /plannedPayments/{plannedPaymentID} {
+        allow read: if isOwner(userID);
+        allow create, update: if isOwner(userID)
+                              && payloadMatchesOwner(userID)
+                              && hasPlannedPaymentShape();
+        allow delete: if isOwner(userID);
+      }
+    }
+
+    // Başka her şey kapalı.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

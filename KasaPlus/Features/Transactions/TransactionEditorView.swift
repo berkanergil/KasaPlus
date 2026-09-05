@@ -22,8 +22,6 @@ struct TransactionEditorView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var viewModel: TransactionEditorViewModel?
-    @State private var isCategoryManagerPresented = false
-    @State private var isBankManagerPresented = false
     @FocusState private var isAmountFocused: Bool
 
     var body: some View {
@@ -48,12 +46,6 @@ struct TransactionEditorView: View {
                     .fontWeight(.semibold)
                     .disabled(viewModel?.canSave != true)
                 }
-            }
-            .sheet(isPresented: $isCategoryManagerPresented) {
-                CategoryManagementView()
-            }
-            .sheet(isPresented: $isBankManagerPresented) {
-                BankManagementView()
             }
         }
         .task {
@@ -93,12 +85,12 @@ struct TransactionEditorView: View {
             // Tutar + para birimi
             Section("Tutar") {
                 HStack(spacing: 12) {
-                    TextField("0,00", value: $viewModel.draft.amount, format: .number.precision(.fractionLength(0...2)))
-                        .keyboardType(.decimalPad)
-                        .font(.system(size: 34, weight: .semibold, design: .rounded))
-                        .foregroundStyle(viewModel.draft.type.tintColor)
-                        .focused($isAmountFocused)
-                        .accessibilityLabel("Tutar")
+                    AmountField(
+                        amount: $viewModel.draft.amount,
+                        tint: viewModel.draft.type.tintColor,
+                        fontSize: 34,
+                        focus: $isAmountFocused
+                    )
 
                     Picker("Para birimi", selection: $viewModel.draft.currency) {
                         ForEach(Currency.allCases) { currency in
@@ -141,31 +133,6 @@ struct TransactionEditorView: View {
                 }
             }
 
-            // Kategori
-            Section {
-                if viewModel.hasNoCategories {
-                    Button {
-                        isCategoryManagerPresented = true
-                    } label: {
-                        Label("Bu tür için kategori ekleyin", systemImage: "plus.circle")
-                    }
-                } else {
-                    CategoryPickerGrid(
-                        categories: viewModel.availableCategories,
-                        selection: $viewModel.draft.categoryID
-                    )
-                    .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
-                }
-            } header: {
-                HStack {
-                    Text("Kategori")
-                    Spacer()
-                    Button("Yönet") { isCategoryManagerPresented = true }
-                        .font(.caption)
-                        .textCase(nil)
-                }
-            }
-
             // Ödeme yöntemi + banka
             Section("Ödeme Yöntemi") {
                 Picker(selection: $viewModel.draft.paymentMethod) {
@@ -180,25 +147,84 @@ struct TransactionEditorView: View {
                     viewModel.paymentMethodDidChange()
                 }
 
-                // Nakit dışı yöntemlerde banka seçimi gösterilir.
                 if viewModel.draft.paymentMethod.requiresBank {
                     BankPickerRow(
                         banks: viewModel.availableBanks,
-                        selection: $viewModel.draft.bankID,
-                        onManage: { isBankManagerPresented = true }
+                        selection: $viewModel.draft.bankID
                     )
                 }
             }
 
-            // Tarih
+            // Kategori
             Section {
-                DatePicker("Tarih", selection: $viewModel.draft.date, displayedComponents: [.date, .hourAndMinute])
+                if viewModel.hasNoCategories {
+                    CategoryEmptyRow(message: "Bu türde kategori yok. Eklemek için dokunun.")
+                } else {
+                    CategoryPickerGrid(
+                        categories: viewModel.availableCategories,
+                        selection: $viewModel.draft.categoryID
+                    )
+                    .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                }
+            } header: {
+                CategorySectionHeader()
+            }
+
+            // Tarih ve tekrarlama
+            Section {
+                DatePicker(
+                    viewModel.draft.isRecurring ? "Başlangıç tarihi" : "Tarih",
+                    selection: $viewModel.draft.date,
+                    displayedComponents: [.date, .hourAndMinute]
+                )
+                .environment(\.locale, Formatters.locale)
+
+                Toggle(isOn: $viewModel.draft.isRecurring) {
+                    Label("Tekrarlayan kayıt", systemImage: "repeat")
+                }
+
+                if viewModel.draft.isRecurring {
+                    Picker("Tekrarlama", selection: $viewModel.draft.recurrenceFrequency) {
+                        ForEach(RecurrenceFrequency.allCases) { frequency in
+                            Text(frequency.title).tag(frequency)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    DatePicker(
+                        "Bitiş tarihi",
+                        selection: $viewModel.draft.recurrenceEndDate,
+                        in: viewModel.draft.date...,
+                        displayedComponents: .date
+                    )
                     .environment(\.locale, Formatters.locale)
+
+                    Label(
+                        "\(viewModel.draft.recurrenceOccurrenceCount) kayıt oluşturulacak",
+                        systemImage: "calendar.badge.plus"
+                    )
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("Tarih")
+            } footer: {
+                if viewModel.draft.isRecurring {
+                    Text("Başlangıç ve bitiş günleri dahil olmak üzere seçilen her dönem için ayrı bir gelir/gider kaydı oluşturulur.")
+                }
+            }
+            .onChange(of: viewModel.draft.isRecurring) { _, isRecurring in
+                guard isRecurring, viewModel.draft.recurrenceEndDate < viewModel.draft.date else { return }
+                viewModel.draft.recurrenceEndDate = viewModel.draft.date.adding(.year, 1)
+            }
+            .onChange(of: viewModel.draft.date) { _, startDate in
+                guard viewModel.draft.isRecurring, viewModel.draft.recurrenceEndDate < startDate else { return }
+                viewModel.draft.recurrenceEndDate = startDate.adding(.year, 1)
             }
 
             // Not
             Section("Not (opsiyonel)") {
-                TextField("Örn. Selçuk Ecza faturası", text: $viewModel.draft.note, axis: .vertical)
+                TextField("Örn. Market alışverişi", text: $viewModel.draft.note, axis: .vertical)
                     .lineLimit(1...4)
             }
 
@@ -212,13 +238,15 @@ struct TransactionEditorView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Bitti") { isAmountFocused = false }
+            if isAmountFocused {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Bitti") { isAmountFocused = false }
+                }
             }
         }
         .onChange(of: session.dataVersion) { _, _ in
-            // Kategori yönetiminden dönüldüğünde seçim hâlâ geçerli mi?
+            // Ayarlardan dönüldüğünde seçim hâlâ geçerli mi?
             viewModel.typeDidChange()
         }
     }

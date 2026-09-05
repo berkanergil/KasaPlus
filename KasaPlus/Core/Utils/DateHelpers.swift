@@ -4,7 +4,7 @@ extension Calendar {
     /// Haftanın pazartesi başladığı Türkiye takvimi.
     static var turkish: Calendar {
         var calendar = Calendar(identifier: .gregorian)
-        calendar.locale = Locale(identifier: "tr_TR")
+        calendar.locale = AppLanguage.current.locale
         calendar.firstWeekday = 2 // Pazartesi
         return calendar
     }
@@ -42,9 +42,9 @@ enum ReportPeriod: String, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .week: return "Hafta"
-        case .month: return "Ay"
-        case .year: return "Yıl"
+        case .week: return L10n.text("Hafta")
+        case .month: return L10n.text("Ay")
+        case .year: return L10n.text("Yıl")
         }
     }
 
@@ -102,6 +102,6 @@ struct PeriodRange: Equatable, Sendable {
 extension String {
     var capitalizedFirst: String {
         guard let first else { return self }
-        return String(first).uppercased(with: Locale(identifier: "tr_TR")) + dropFirst()
+        return String(first).uppercased(with: Formatters.locale) + dropFirst()
     }
 }

@@ -9,14 +9,18 @@
 /* Begin PBXBuildFile section */
 		025A4EBB30F6DB0A395A59AB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DA15180467A0B94BB1226B /* Category.swift */; };
 		06030838A857C9BD9C7311A8 /* CategoryManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC10AB34966541F9222EB48 /* CategoryManagementView.swift */; };
+		B1A0C0DE0000000000000A0A /* CategoryShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0C0DE0000000000000A09 /* CategoryShortcuts.swift */; };
 		084EC69EBCBBBA161F1BCFE3 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAF1CA3C8E88FDA56ED4A96 /* KeychainStore.swift */; };
 		086B661C296CF046412576DE /* ReportModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357B3A4FBFA9CCAB6D9BA77 /* ReportModels.swift */; };
 		08A431C1EB2BD7F55EDBB71C /* PlannedPaymentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8E24D14DAAB80BC64F5ED /* PlannedPaymentRepository.swift */; };
 		0FF4150003B37036CE638614 /* PlannedPaymentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E04DAB6590B1BBD6101141 /* PlannedPaymentListView.swift */; };
+		15E00F2897B953F3F2477136 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A42BC13A0E6E75213BBCB21B /* Localizable.strings */; };
+		B1A0C0DE0000000000000A04 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1A0C0DE0000000000000A02 /* InfoPlist.strings */; };
 		17CEBD84AE13CB07729A44FB /* ExchangeRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CAEEBD6E68A0B6DA3B7F85 /* ExchangeRateService.swift */; };
 		1A31A15A014E93248578EEEF /* BiometricLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F4B2FE3668BED11E451BF4 /* BiometricLockService.swift */; };
 		1B538A7A3EAFB43C3B3ADA7B /* OwnershipMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76113A26CABE3AF079675FDB /* OwnershipMigrator.swift */; };
 		1BF99FA5EC12384DE2C4E8DE /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDDE8D47CF1B8DFFBA28E33 /* SharedComponents.swift */; };
+		B1A0C0DE0000000000000A08 /* AmountField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0C0DE0000000000000A07 /* AmountField.swift */; };
 		1F17D5C95CB3A305C7480C14 /* BackgroundSyncScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7456EF0D0DA00CC3B53C26B /* BackgroundSyncScheduler.swift */; };
 		236302CEEE383A4E59E39370 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758955F12132AECF1DF59BCE /* Currency.swift */; };
 		281F736F7026931C8EE1742D /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891348A1AA0386B627F62BBE /* PaymentMethod.swift */; };
@@ -27,7 +31,6 @@
 		37CE644483193E0A24B9254E /* ReportsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0EB029355A0092876334EA2 /* ReportsViewModel.swift */; };
 		408FF7F15EDEB9716C792795 /* DefaultCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B9CFED774B7B292A63B136 /* DefaultCategories.swift */; };
 		41644DB345AA21E29F5265EE /* ReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830F905874D59E8B3C34C104 /* ReportsView.swift */; };
-		44B609D3CF94CE40949A2928 /* FirestoreRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCFF602D74FAD305A126448 /* FirestoreRemoteDataSource.swift */; };
 		486F2F1AC214D37CFBE58720 /* ReportBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5699376F2E47440855D73351 /* ReportBuilder.swift */; };
 		495AF141940F2C8175317991 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAB4B76F616C9B46D023206 /* DateHelpers.swift */; };
 		4F0BD409364BA489229C04FD /* RemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4482CFD385D3710E176EA /* RemoteDataSource.swift */; };
@@ -42,7 +45,6 @@
 		6428F252CE4CA5DEA43F766C /* CurrencyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9984AAAD6AEA9792F3661 /* CurrencyConverter.swift */; };
 		688A0483E0CA1A6D0415382D /* TransactionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E5C193B1F24794A56B3272 /* TransactionType.swift */; };
 		6A1CF90D001E6ACF24E03F4E /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FBC17FB7E2CA03AA1421A9 /* DashboardViewModel.swift */; };
-		6C5170CE3DBA4642E5C96876 /* FirebaseAuthBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9D36F5B1E44CA6D31A2B4 /* FirebaseAuthBridge.swift */; };
 		6E469D0BCBA92EF49D70B4A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2508CD8BD89C830FAE75DC8 /* AppDelegate.swift */; };
 		7D656D1EE7F292AC6C3F4FCD /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB45A3D8B8C9569E080FF970 /* RootView.swift */; };
 		7FF1D59D51D25D52B5CEEFE9 /* Bank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7ED043CAEBD215E3919EAB /* Bank.swift */; };
@@ -93,7 +95,6 @@
 		546BF03604041FA073531103 /* KasaPlus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KasaPlus.entitlements; sourceTree = "<group>"; };
 		5699376F2E47440855D73351 /* ReportBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBuilder.swift; sourceTree = "<group>"; };
 		570E293CEE74A071FA098C75 /* firestore.rules */ = {isa = PBXFileReference; lastKnownFileType = text; path = firestore.rules; sourceTree = "<group>"; };
-		5AF9D36F5B1E44CA6D31A2B4 /* FirebaseAuthBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthBridge.swift; sourceTree = "<group>"; };
 		5D5C1AA26DD5F5F2D0CB0F79 /* BankRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankRepository.swift; sourceTree = "<group>"; };
 		60B444925E5A42FD72142123 /* PlannedPaymentRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedPaymentRowView.swift; sourceTree = "<group>"; };
 		647E27F0276F89B4BAC40FC7 /* PostponeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostponeSheet.swift; sourceTree = "<group>"; };
@@ -114,13 +115,17 @@
 		891348A1AA0386B627F62BBE /* PaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethod.swift; sourceTree = "<group>"; };
 		8CAF1CA3C8E88FDA56ED4A96 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		8EDDE8D47CF1B8DFFBA28E33 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
-		8FCFF602D74FAD305A126448 /* FirestoreRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRemoteDataSource.swift; sourceTree = "<group>"; };
+		B1A0C0DE0000000000000A07 /* AmountField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountField.swift; sourceTree = "<group>"; };
 		94C15BE5070C5F7EFB573FBD /* TransactionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRepository.swift; sourceTree = "<group>"; };
 		95F4B2FE3668BED11E451BF4 /* BiometricLockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricLockService.swift; sourceTree = "<group>"; };
 		96E5E0213FD431A8AE8B2F97 /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
 		9CCED27406ABA1496C5D072D /* DefaultBanks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBanks.swift; sourceTree = "<group>"; };
 		A1CAEEBD6E68A0B6DA3B7F85 /* ExchangeRateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateService.swift; sourceTree = "<group>"; };
 		A253D584951773A716DD7614 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B1A0C0DE0000000000000A01 /* en */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B1A0C0DE0000000000000A05 /* tr */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B1A0C0DE0000000000000A03 /* en */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B1A0C0DE0000000000000A06 /* tr */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A6ED5425D1188BA3D055997F /* BackgroundSyncRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSyncRunner.swift; sourceTree = "<group>"; };
 		A8792157CB4F27FB949C035F /* KasaPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KasaPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7456EF0D0DA00CC3B53C26B /* BackgroundSyncScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSyncScheduler.swift; sourceTree = "<group>"; };
@@ -138,6 +143,7 @@
 		E0EB029355A0092876334EA2 /* ReportsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewModel.swift; sourceTree = "<group>"; };
 		E7D410E7F2215FE19BE80A56 /* PlannedPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedPayment.swift; sourceTree = "<group>"; };
 		EDC10AB34966541F9222EB48 /* CategoryManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManagementView.swift; sourceTree = "<group>"; };
+		B1A0C0DE0000000000000A09 /* CategoryShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryShortcuts.swift; sourceTree = "<group>"; };
 		EEB39E454D7B970E032BF2C1 /* PlannedPaymentNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedPaymentNotifications.swift; sourceTree = "<group>"; };
 		F34BE392766EFE96D9509DEF /* TransactionEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionEditorViewModel.swift; sourceTree = "<group>"; };
 		F3CD612840F49689208D8F70 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -163,6 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				25C03D298EB0E3F902A51B74 /* Assets.xcassets */,
+				B1A0C0DE0000000000000A02 /* InfoPlist.strings */,
+				A42BC13A0E6E75213BBCB21B /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -195,7 +203,6 @@
 			children = (
 				F94FF57155609364DE0D2E45 /* AuthService.swift */,
 				95F4B2FE3668BED11E451BF4 /* BiometricLockService.swift */,
-				5AF9D36F5B1E44CA6D31A2B4 /* FirebaseAuthBridge.swift */,
 				8CAF1CA3C8E88FDA56ED4A96 /* KeychainStore.swift */,
 			);
 			path = Auth;
@@ -207,7 +214,6 @@
 				A6ED5425D1188BA3D055997F /* BackgroundSyncRunner.swift */,
 				B7456EF0D0DA00CC3B53C26B /* BackgroundSyncScheduler.swift */,
 				747EDB08BD5FCE52ED9A2430 /* BankAndPlannedPaymentDTOs.swift */,
-				8FCFF602D74FAD305A126448 /* FirestoreRemoteDataSource.swift */,
 				2FD4482CFD385D3710E176EA /* RemoteDataSource.swift */,
 				CCD94C0CFA2A2FD0D84C7841 /* SyncDTOs.swift */,
 				96E5E0213FD431A8AE8B2F97 /* SyncService.swift */,
@@ -236,6 +242,7 @@
 			children = (
 				185DED321EDCAC691144D260 /* CategoryEditorView.swift */,
 				EDC10AB34966541F9222EB48 /* CategoryManagementView.swift */,
+				B1A0C0DE0000000000000A09 /* CategoryShortcuts.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -401,6 +408,7 @@
 		EDC509FC7CA18BF708EA907C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				B1A0C0DE0000000000000A07 /* AmountField.swift */,
 				8EDDE8D47CF1B8DFFBA28E33 /* SharedComponents.swift */,
 			);
 			path = Components;
@@ -430,6 +438,27 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXVariantGroup section */
+		B1A0C0DE0000000000000A02 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B1A0C0DE0000000000000A06 /* tr */,
+				B1A0C0DE0000000000000A03 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A42BC13A0E6E75213BBCB21B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B1A0C0DE0000000000000A05 /* tr */,
+				B1A0C0DE0000000000000A01 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin PBXNativeTarget section */
 		34A04005BCAF206EEC990BD9 /* KasaPlus */ = {
 			isa = PBXNativeTarget;
@@ -456,7 +485,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					34A04005BCAF206EEC990BD9 = {
 						CreatedOnToolsVersion = 16.0;
@@ -488,6 +517,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D2AEAD94D6C431F728EB1E1 /* Assets.xcassets in Resources */,
+				15E00F2897B953F3F2477136 /* Localizable.strings in Resources */,
+				B1A0C0DE0000000000000A04 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,7 +536,6 @@
 				7D656D1EE7F292AC6C3F4FCD /* RootView.swift in Sources */,
 				F48F8180D857E6A928714E79 /* AuthService.swift in Sources */,
 				1A31A15A014E93248578EEEF /* BiometricLockService.swift in Sources */,
-				6C5170CE3DBA4642E5C96876 /* FirebaseAuthBridge.swift in Sources */,
 				084EC69EBCBBBA161F1BCFE3 /* KeychainStore.swift in Sources */,
 				6428F252CE4CA5DEA43F766C /* CurrencyConverter.swift in Sources */,
 				17CEBD84AE13CB07729A44FB /* ExchangeRateService.swift in Sources */,
@@ -532,7 +562,6 @@
 				F8A0260A072F1F63ED3ABF43 /* BackgroundSyncRunner.swift in Sources */,
 				1F17D5C95CB3A305C7480C14 /* BackgroundSyncScheduler.swift in Sources */,
 				58DB79B43F535A827D0B7014 /* BankAndPlannedPaymentDTOs.swift in Sources */,
-				44B609D3CF94CE40949A2928 /* FirestoreRemoteDataSource.swift in Sources */,
 				4F0BD409364BA489229C04FD /* RemoteDataSource.swift in Sources */,
 				5DEB98F9871D40A40E854E7D /* SyncDTOs.swift in Sources */,
 				908C9A9352B8EA0397675725 /* SyncService.swift in Sources */,
@@ -545,6 +574,8 @@
 				C3AB12BB185A2B8AD877A83F /* BankManagementView.swift in Sources */,
 				99FDA613246A8A2DC1E066EA /* CategoryEditorView.swift in Sources */,
 				06030838A857C9BD9C7311A8 /* CategoryManagementView.swift in Sources */,
+				B1A0C0DE0000000000000A0A /* CategoryShortcuts.swift in Sources */,
+				B1A0C0DE0000000000000A08 /* AmountField.swift in Sources */,
 				1BF99FA5EC12384DE2C4E8DE /* SharedComponents.swift in Sources */,
 				CC20FD0BFCDE9D4D17DBB2A4 /* DashboardView.swift in Sources */,
 				6A1CF90D001E6ACF24E03F4E /* DashboardViewModel.swift in Sources */,
@@ -573,24 +604,35 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XZW53JT86B;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -607,6 +649,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
@@ -621,7 +664,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = XZW53JT86B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -645,7 +687,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = XZW53JT86B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -666,24 +707,35 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = XZW53JT86B;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -707,6 +759,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

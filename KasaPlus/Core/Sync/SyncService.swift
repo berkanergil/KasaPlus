@@ -139,8 +139,8 @@ final class SyncService {
 
     /// Ayarlar ekranında gösterilecek metin.
     var lastSyncDescription: String {
-        guard remote.isConfigured else { return "Devre dışı" }
-        guard let lastSyncDate else { return "Henüz yedeklenmedi" }
+        guard remote.isConfigured else { return L10n.text("Devre dışı") }
+        guard let lastSyncDate else { return L10n.text("Henüz yedeklenmedi") }
         return Formatters.dateTime.string(from: lastSyncDate)
     }
 }

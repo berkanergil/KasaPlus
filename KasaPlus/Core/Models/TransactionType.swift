@@ -10,8 +10,8 @@ enum TransactionType: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .income: return "Gelir"
-        case .expense: return "Gider"
+        case .income: return L10n.text("Gelir")
+        case .expense: return L10n.text("Gider")
         }
     }
 

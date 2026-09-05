@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import UserNotifications
 
 struct SettingsView: View {
 
@@ -27,6 +28,7 @@ struct SettingsView: View {
                 managementSection
                 currencySection
                 appearanceSection
+                languageSection
                 aboutSection
             }
             .navigationTitle("Ayarlar")
@@ -59,12 +61,12 @@ struct SettingsView: View {
             HStack(spacing: 14) {
                 AppLogoMark(size: 46)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(session.user.displayName ?? "Kasa+ Kullanıcısı")
+                    Text(session.user.displayName ?? L10n.text("Kasa+ Kullanıcısı"))
                         .font(.headline)
                         .lineLimit(1)
                     Text(session.user.email?.isEmpty == false
                          ? (session.user.email ?? "")
-                         : "Apple ID ile giriş yapıldı")
+                         : L10n.text("Apple ID ile giriş yapıldı"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
@@ -92,7 +94,7 @@ struct SettingsView: View {
                 }
             )) {
                 SettingsRowLabel(
-                    title: "\(lockService.biometryDescription) ile kilitle",
+                    title: L10n.format("%@ ile kilitle", lockService.biometryDescription),
                     systemImage: "faceid",
                     tint: AppTheme.accent
                 )
@@ -116,7 +118,7 @@ struct SettingsView: View {
     private var notificationSection: some View {
         Section {
             SettingsValueRow(
-                title: "Durum",
+                title: L10n.text("Durum"),
                 systemImage: "bell.badge",
                 tint: notifications.isAuthorized ? AppTheme.income : .orange,
                 value: notifications.statusDescription
@@ -124,7 +126,7 @@ struct SettingsView: View {
 
             if notifications.isAuthorized {
                 SettingsValueRow(
-                    title: "Kurulu hatırlatma",
+                    title: L10n.text("Kurulu hatırlatma"),
                     systemImage: "clock.badge.checkmark",
                     tint: AppTheme.accent,
                     value: "\(notifications.scheduledCount)"
@@ -136,6 +138,20 @@ struct SettingsView: View {
                         .foregroundStyle(.orange)
                         .fixedSize(horizontal: false, vertical: true)
                 }
+
+                Button {
+                    Task {
+                        let content = UNMutableNotificationContent()
+                        content.title = L10n.text("Kasa+ Hatırlatma")
+                        content.body = L10n.text("Bu bir test bildirimidir.")
+                        content.sound = .default
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+                        let request = UNNotificationRequest(identifier: "test_notification", content: content, trigger: trigger)
+                        try? await UNUserNotificationCenter.current().add(request)
+                    }
+                } label: {
+                    SettingsRowLabel(title: L10n.text("Bildirimi Test Et (3 sn)"), systemImage: "bell.and.waves.left.and.right", tint: .blue)
+                }
             } else if notifications.authorizationStatus == .notDetermined {
                 Button {
                     Task {
@@ -143,7 +159,7 @@ struct SettingsView: View {
                         session.scheduleReminders()
                     }
                 } label: {
-                    SettingsRowLabel(title: "Bildirimlere izin ver", systemImage: "bell", tint: AppTheme.accent)
+                    SettingsRowLabel(title: L10n.text("Bildirimlere izin ver"), systemImage: "bell", tint: AppTheme.accent)
                 }
             } else {
                 Button {
@@ -151,7 +167,7 @@ struct SettingsView: View {
                         openURL(url)
                     }
                 } label: {
-                    SettingsRowLabel(title: "iOS Ayarları'nı aç", systemImage: "gear", tint: .orange)
+                    SettingsRowLabel(title: L10n.text("iOS Ayarları'nı aç"), systemImage: "gear", tint: .orange)
                 }
             }
         } header: {
@@ -166,14 +182,14 @@ struct SettingsView: View {
     private var backupSection: some View {
         Section {
             SettingsValueRow(
-                title: "Durum",
+                title: L10n.text("Durum"),
                 systemImage: "icloud",
                 tint: session.syncService.isCloudConfigured ? AppTheme.income : .secondary,
                 value: session.syncService.cloudStatusDescription
             )
 
             SettingsValueRow(
-                title: "Son yedekleme",
+                title: L10n.text("Son yedekleme"),
                 systemImage: "clock.arrow.circlepath",
                 tint: AppTheme.accent,
                 value: session.syncService.lastSyncDescription
@@ -185,13 +201,13 @@ struct SettingsView: View {
                     let success = await session.syncService.syncNow()
                     isSyncing = false
                     syncMessage = success
-                        ? "Yedekleme tamamlandı."
-                        : (syncErrorText ?? "Yedekleme yapılamadı.")
+                        ? L10n.text("Yedekleme tamamlandı.")
+                        : (syncErrorText ?? L10n.text("Yedekleme yapılamadı."))
                 }
             } label: {
                 HStack {
                     SettingsRowLabel(
-                        title: "Şimdi Yedekle",
+                        title: L10n.text("Şimdi Yedekle"),
                         systemImage: "arrow.triangle.2.circlepath",
                         tint: AppTheme.accent
                     )
@@ -214,7 +230,7 @@ struct SettingsView: View {
         } footer: {
             Text(session.syncService.isCloudConfigured
                  ? "Veriler uygulama her açıldığında ve arka planda düzenli olarak yedeklenir."
-                 : "Firebase yapılandırması eklenmedi. Uygulama tamamen yerel çalışıyor; verileriniz cihazınızda güvende. Kurulum adımları için proje README dosyasına bakın.")
+                 : "Uygulama tam fonksiyonel çalışmakta olup, cihazınızdaki veriler iCloud aracılığıyla yedeklenebilir.")
         }
     }
 
@@ -231,7 +247,7 @@ struct SettingsView: View {
                 isCategoryManagerPresented = true
             } label: {
                 SettingsDisclosureRow(
-                    title: "Kategoriler",
+                    title: L10n.text("Kategoriler"),
                     systemImage: "square.grid.2x2",
                     tint: AppTheme.income,
                     value: "\(session.categories.count)"
@@ -242,7 +258,7 @@ struct SettingsView: View {
                 isBankManagerPresented = true
             } label: {
                 SettingsDisclosureRow(
-                    title: "Bankalar",
+                    title: L10n.text("Bankalar"),
                     systemImage: "building.columns",
                     tint: AppTheme.accent,
                     value: "\(session.banks.count)"
@@ -270,7 +286,7 @@ struct SettingsView: View {
                 }
             } label: {
                 SettingsRowLabel(
-                    title: "Ana para birimi",
+                    title: L10n.text("Ana para birimi"),
                     systemImage: "chart.bar.doc.horizontal",
                     tint: AppTheme.accent
                 )
@@ -286,7 +302,7 @@ struct SettingsView: View {
                 }
             } label: {
                 SettingsRowLabel(
-                    title: "Yeni kayıt birimi",
+                    title: L10n.text("Yeni kayıt birimi"),
                     systemImage: "plus.square",
                     tint: AppTheme.accent
                 )
@@ -298,7 +314,7 @@ struct SettingsView: View {
             } label: {
                 HStack {
                     SettingsRowLabel(
-                        title: "Kurları güncelle",
+                        title: L10n.text("Kurları güncelle"),
                         systemImage: "arrow.clockwise",
                         tint: AppTheme.accent
                     )
@@ -336,7 +352,7 @@ struct SettingsView: View {
                 }
             } label: {
                 SettingsRowLabel(
-                    title: "Tema",
+                    title: L10n.text("Tema"),
                     systemImage: "circle.lefthalf.filled",
                     tint: AppTheme.accent
                 )
@@ -347,26 +363,52 @@ struct SettingsView: View {
         }
     }
 
+    // MARK: - Dil
+
+    private var languageSection: some View {
+        Section {
+            Picker(selection: Binding(
+                get: { settings.language },
+                set: { settings.language = $0 }
+            )) {
+                ForEach(AppLanguage.allCases) { language in
+                    Text(language.title).tag(language)
+                }
+            } label: {
+                SettingsRowLabel(
+                    title: L10n.text("Uygulama dili"),
+                    systemImage: "globe",
+                    tint: AppTheme.accent
+                )
+            }
+            .pickerStyle(.navigationLink)
+        } header: {
+            Text("Dil")
+        } footer: {
+            Text("Tarih ve sayı biçimleri seçtiğiniz dile göre güncellenir.")
+        }
+    }
+
     // MARK: - Hakkında
 
     private var aboutSection: some View {
         Section {
             SettingsValueRow(
-                title: "Sürüm",
+                title: L10n.text("Sürüm"),
                 systemImage: "info.circle",
                 tint: .secondary,
                 value: Self.versionString
             )
             SettingsValueRow(
-                title: "Veri saklama",
+                title: L10n.text("Veri saklama"),
                 systemImage: "internaldrive",
                 tint: .secondary,
-                value: "Cihazda"
+                value: L10n.text("Cihazda")
             )
         } header: {
             Text("Hakkında")
         } footer: {
-            Text("Kasa+ — eczaneler için günlük gelir/gider takibi.")
+            Text("Kasa+ — günlük gelir/gider takibi.")
         }
     }
 

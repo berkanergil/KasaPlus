@@ -1,11 +1,11 @@
 # Kasa+
 
-**Eczaneler için günlük gelir/gider takibi — iOS (SwiftUI, offline-first).**
+**Günlük gelir/gider takibi — iOS (SwiftUI, offline-first).**
 
-Kasa+, bir eczanenin gün içindeki harcamalarını ve gelirlerini saniyeler içinde
+Kasa+, gün içindeki harcamalarınızı ve gelirlerinizi saniyeler içinde
 kaydetmek, kategorilere ayırmak ve zaman içindeki finansal durumu grafiklerle
 takip etmek için tasarlandı. Uygulama **internetsiz tam fonksiyoneldir**;
-bağlantı geldiğinde veriler arka planda Firebase'e yedeklenir.
+bağlantı geldiğinde veriler arka planda iCloud'a yedeklenir.
 
 ---
 

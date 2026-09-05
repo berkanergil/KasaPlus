@@ -48,13 +48,13 @@ enum PlannedPaymentNotifications {
     static var category: UNNotificationCategory {
         let markPaid = UNNotificationAction(
             identifier: markPaidActionIdentifier,
-            title: "Ödedim",
+            title: L10n.text("Ödedim"),
             options: []
         )
         // Erteleme için tarih seçtirmemiz gerekiyor → uygulamayı öne getir.
         let postpone = UNNotificationAction(
             identifier: postponeActionIdentifier,
-            title: "Ertele",
+            title: L10n.text("Ertele"),
             options: [.foreground]
         )
 
@@ -70,9 +70,9 @@ enum PlannedPaymentNotifications {
 
     static func title(for stage: Stage, payment: PlannedPayment) -> String {
         switch stage {
-        case .week: return "Yaklaşan ödeme: \(payment.title)"
-        case .day: return "Yarın ödeme günü: \(payment.title)"
-        case .due: return "Bugün ödeme günü: \(payment.title)"
+        case .week: return L10n.format("Yaklaşan ödeme: %@", payment.title)
+        case .day: return L10n.format("Yarın ödeme günü: %@", payment.title)
+        case .due: return L10n.format("Bugün ödeme günü: %@", payment.title)
         }
     }
 
@@ -83,11 +83,11 @@ enum PlannedPaymentNotifications {
 
         switch stage {
         case .week:
-            return "\(amount)\(categorySuffix) — vade \(dateText)."
+            return L10n.format("%@%@ — vade %@.", amount, categorySuffix, dateText)
         case .day:
-            return "\(amount)\(categorySuffix) — ödeme yarın yapılmalı."
+            return L10n.format("%@%@ — ödeme yarın yapılmalı.", amount, categorySuffix)
         case .due:
-            return "\(amount)\(categorySuffix) — bu tutar giderlere eklensin mi?"
+            return L10n.format("%@%@ — bu tutar giderlere eklensin mi?", amount, categorySuffix)
         }
     }
 }

@@ -13,6 +13,9 @@ struct PlannedPaymentDraft: Equatable, Sendable {
     var bankID: UUID?
     var note: String
     var reminderEnabled: Bool
+    var isRecurring: Bool
+    var recurrenceFrequency: RecurrenceFrequency
+    var recurrenceEndDate: Date
 
     static func empty(currency: Currency = .TRY, calendar: Calendar = .turkish) -> PlannedPaymentDraft {
         // Varsayılan vade: bir hafta sonrası, sabah 09:00
@@ -31,7 +34,10 @@ struct PlannedPaymentDraft: Equatable, Sendable {
             paymentMethod: .bankTransfer,
             bankID: nil,
             note: "",
-            reminderEnabled: true
+            reminderEnabled: true,
+            isRecurring: false,
+            recurrenceFrequency: .monthly,
+            recurrenceEndDate: calendar.date(byAdding: .year, value: 1, to: due) ?? due
         )
     }
 
@@ -45,7 +51,10 @@ struct PlannedPaymentDraft: Equatable, Sendable {
         paymentMethod: PaymentMethod,
         bankID: UUID?,
         note: String,
-        reminderEnabled: Bool
+        reminderEnabled: Bool,
+        isRecurring: Bool = false,
+        recurrenceFrequency: RecurrenceFrequency = .monthly,
+        recurrenceEndDate: Date? = nil
     ) {
         self.id = id
         self.title = title
@@ -57,6 +66,11 @@ struct PlannedPaymentDraft: Equatable, Sendable {
         self.bankID = bankID
         self.note = note
         self.reminderEnabled = reminderEnabled
+        self.isRecurring = isRecurring
+        self.recurrenceFrequency = recurrenceFrequency
+        self.recurrenceEndDate = recurrenceEndDate
+            ?? Calendar.turkish.date(byAdding: .year, value: 1, to: dueDate)
+            ?? dueDate
     }
 
     init(payment: PlannedPayment) {
@@ -70,12 +84,23 @@ struct PlannedPaymentDraft: Equatable, Sendable {
         self.bankID = payment.bankID
         self.note = payment.note ?? ""
         self.reminderEnabled = payment.reminderEnabled
+        self.isRecurring = payment.isRecurring
+        self.recurrenceFrequency = payment.recurrenceFrequency ?? .monthly
+        self.recurrenceEndDate = payment.recurrenceEndDate
+            ?? Calendar.turkish.date(byAdding: .year, value: 1, to: payment.dueDate)
+            ?? payment.dueDate
     }
 
     var isValid: Bool {
         amount > 0
         && categoryID != nil
         && !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        && (!isRecurring || dueDate <= recurrenceEndDate.endOfDay())
+    }
+
+    var recurrenceOccurrenceCount: Int {
+        guard isRecurring else { return 0 }
+        return recurrenceFrequency.occurrenceDates(from: dueDate, through: recurrenceEndDate).count
     }
 }
 
@@ -147,26 +172,110 @@ final class SwiftDataPlannedPaymentRepository: PlannedPaymentRepositoryProtocol 
             existing.bankID = bankID
             existing.note = trimmedNote.isEmpty ? nil : trimmedNote
             existing.reminderEnabled = draft.reminderEnabled
+            updateRecurrence(on: existing, from: draft)
+
+            if draft.isRecurring, existing.recurrenceGroupID == nil {
+                let groupID = UUID()
+                existing.recurrenceGroupID = groupID
+                createFutureOccurrences(
+                    from: draft,
+                    after: existing.dueDate,
+                    recurrenceGroupID: groupID,
+                    categoryID: categoryID,
+                    bankID: bankID,
+                    trimmedNote: trimmedNote
+                )
+            }
             existing.updatedAt = .now
             try context.save()
             return existing
         }
 
-        let created = PlannedPayment(
-            title: title,
+        let recurrenceGroupID = draft.isRecurring ? UUID() : nil
+        let dates = draft.isRecurring
+            ? draft.recurrenceFrequency.occurrenceDates(from: draft.dueDate, through: draft.recurrenceEndDate)
+            : [draft.dueDate]
+        guard let firstDate = dates.first else { throw RepositoryError.invalidDraft }
+
+        let created = makePayment(
+            from: draft,
+            dueDate: firstDate,
+            categoryID: categoryID,
+            bankID: bankID,
+            trimmedNote: trimmedNote,
+            recurrenceGroupID: recurrenceGroupID
+        )
+        context.insert(created)
+
+        for dueDate in dates.dropFirst() {
+            context.insert(makePayment(
+                from: draft,
+                dueDate: dueDate,
+                categoryID: categoryID,
+                bankID: bankID,
+                trimmedNote: trimmedNote,
+                recurrenceGroupID: recurrenceGroupID
+            ))
+        }
+        try context.save()
+        return created
+    }
+
+    private func updateRecurrence(on payment: PlannedPayment, from draft: PlannedPaymentDraft) {
+        guard draft.isRecurring else {
+            payment.recurrenceGroupID = nil
+            payment.recurrenceFrequency = nil
+            payment.recurrenceEndDate = nil
+            return
+        }
+        payment.recurrenceFrequency = draft.recurrenceFrequency
+        payment.recurrenceEndDate = draft.recurrenceEndDate
+    }
+
+    private func makePayment(
+        from draft: PlannedPaymentDraft,
+        dueDate: Date,
+        categoryID: UUID,
+        bankID: UUID?,
+        trimmedNote: String,
+        recurrenceGroupID: UUID?
+    ) -> PlannedPayment {
+        PlannedPayment(
+            title: draft.title.trimmingCharacters(in: .whitespacesAndNewlines),
             amount: draft.amount,
             currency: draft.currency,
-            dueDate: draft.dueDate,
+            dueDate: dueDate,
             categoryID: categoryID,
             paymentMethod: draft.paymentMethod,
             bankID: bankID,
             note: trimmedNote.isEmpty ? nil : trimmedNote,
             reminderEnabled: draft.reminderEnabled,
+            recurrenceGroupID: recurrenceGroupID,
+            recurrenceFrequency: draft.isRecurring ? draft.recurrenceFrequency : nil,
+            recurrenceEndDate: draft.isRecurring ? draft.recurrenceEndDate : nil,
             userID: userID
         )
-        context.insert(created)
-        try context.save()
-        return created
+    }
+
+    private func createFutureOccurrences(
+        from draft: PlannedPaymentDraft,
+        after dueDate: Date,
+        recurrenceGroupID: UUID,
+        categoryID: UUID,
+        bankID: UUID?,
+        trimmedNote: String
+    ) {
+        let dates = draft.recurrenceFrequency.occurrenceDates(from: draft.dueDate, through: draft.recurrenceEndDate)
+        for occurrenceDate in dates where occurrenceDate > dueDate {
+            context.insert(makePayment(
+                from: draft,
+                dueDate: occurrenceDate,
+                categoryID: categoryID,
+                bankID: bankID,
+                trimmedNote: trimmedNote,
+                recurrenceGroupID: recurrenceGroupID
+            ))
+        }
     }
 
     func delete(id: UUID) throws {
@@ -269,6 +378,9 @@ final class SwiftDataPlannedPaymentRepository: PlannedPaymentRepositoryProtocol 
             existing.paidAt = dto.paidAt
             existing.reminderEnabled = dto.reminderEnabled
             existing.postponeCount = dto.postponeCount
+            existing.recurrenceGroupID = dto.recurrenceGroupID
+            existing.recurrenceFrequencyRaw = dto.recurrenceFrequency
+            existing.recurrenceEndDate = dto.recurrenceEndDate
             existing.updatedAt = dto.updatedAt
             existing.isRemoved = dto.isDeleted
             existing.syncedAt = .now
@@ -288,6 +400,9 @@ final class SwiftDataPlannedPaymentRepository: PlannedPaymentRepositoryProtocol 
                 paidAt: dto.paidAt,
                 reminderEnabled: dto.reminderEnabled,
                 postponeCount: dto.postponeCount,
+                recurrenceGroupID: dto.recurrenceGroupID,
+                recurrenceFrequency: dto.recurrenceFrequency.flatMap(RecurrenceFrequency.init(rawValue:)),
+                recurrenceEndDate: dto.recurrenceEndDate,
                 userID: dto.userID,
                 createdAt: dto.createdAt,
                 updatedAt: dto.updatedAt,

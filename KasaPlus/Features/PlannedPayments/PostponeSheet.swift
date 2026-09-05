@@ -44,11 +44,11 @@ struct PostponeSheet: View {
                 Section("Hızlı seçim") {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
-                            quickButton("1 gün", days: 1)
-                            quickButton("3 gün", days: 3)
-                            quickButton("1 hafta", days: 7)
-                            quickButton("15 gün", days: 15)
-                            quickButton("1 ay", days: 30)
+                            quickButton(L10n.text("1 gün"), days: 1)
+                            quickButton(L10n.text("3 gün"), days: 3)
+                            quickButton(L10n.text("1 hafta"), days: 7)
+                            quickButton(L10n.text("15 gün"), days: 15)
+                            quickButton(L10n.text("1 ay"), days: 30)
                         }
                         .padding(.vertical, 2)
                     }

@@ -75,10 +75,10 @@ final class NotificationRouter {
         do {
             _ = try repository.markPaid(id: paymentID, on: .now)
             NotificationService().cancel(paymentID: paymentID)
-            lastActionMessage = "\"\(payment.title)\" ödendi olarak işaretlendi ve giderlere eklendi."
+            lastActionMessage = L10n.format("%@ ödendi olarak işaretlendi ve giderlere eklendi.", "\"\(payment.title)\"")
             onDataChanged?()
         } catch {
-            lastActionMessage = "İşlem tamamlanamadı: \(error.localizedDescription)"
+            lastActionMessage = L10n.format("İşlem tamamlanamadı: %@", error.localizedDescription)
         }
     }
 

@@ -27,9 +27,9 @@ final class DashboardViewModel {
     var greeting: String {
         let hour = Calendar.turkish.component(.hour, from: .now)
         switch hour {
-        case 5..<12: return "Günaydın"
-        case 12..<18: return "İyi günler"
-        default: return "İyi akşamlar"
+        case 5..<12: return L10n.text("Günaydın")
+        case 12..<18: return L10n.text("İyi günler")
+        default: return L10n.text("İyi akşamlar")
         }
     }
 
@@ -73,9 +73,9 @@ final class DashboardViewModel {
 
     var comparisonLabel: String {
         switch period {
-        case .week: return "Geçen haftaya göre"
-        case .month: return "Geçen aya göre"
-        case .year: return "Geçen yıla göre"
+        case .week: return L10n.text("Geçen haftaya göre")
+        case .month: return L10n.text("Geçen aya göre")
+        case .year: return L10n.text("Geçen yıla göre")
         }
     }
 }

@@ -22,7 +22,7 @@ enum AuthError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .cancelled: return nil
-        case .missingIdentityToken: return "Apple kimlik doğrulama belirteci alınamadı."
+        case .missingIdentityToken: return L10n.text("Apple kimlik doğrulama belirteci alınamadı.")
         case .underlying(let message): return message
         }
     }
@@ -40,10 +40,8 @@ protocol AuthServiceProtocol: AnyObject {
 
 /// Sign in with Apple tabanlı kimlik doğrulama.
 ///
-/// Firebase Auth projeye eklendiğinde (`canImport(FirebaseAuth)`) Apple kimliği
-/// Firebase'e devredilir ve Firestore güvenlik kuralları için gerçek bir UID elde edilir.
-/// Firebase yokken Apple'ın kararlı `user` kimliği doğrudan kullanılır; uygulama
-/// tamamen yerel olarak çalışmaya devam eder.
+/// Apple'ın kararlı `user` kimliği doğrudan kullanılır; uygulama
+/// yerel olarak (uygun olan yerlerde CloudKit ile) çalışmaya devam eder.
 @MainActor
 @Observable
 final class AppleAuthService: AuthServiceProtocol {
@@ -95,24 +93,13 @@ final class AppleAuthService: AuthServiceProtocol {
 
     func signIn(with authorization: ASAuthorization) async throws {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-            throw AuthError.underlying("Beklenmeyen kimlik bilgisi türü.")
+            throw AuthError.underlying(L10n.text("Beklenmeyen kimlik bilgisi türü."))
         }
 
         let appleUserID = credential.user
-        var resolvedID = appleUserID
+        let resolvedID = appleUserID
 
-        #if canImport(FirebaseAuth)
-        guard let tokenData = credential.identityToken,
-              let idToken = String(data: tokenData, encoding: .utf8),
-              let rawNonce = currentNonce else {
-            throw AuthError.missingIdentityToken
-        }
-        resolvedID = try await FirebaseAuthBridge.signIn(
-            idToken: idToken,
-            rawNonce: rawNonce,
-            fullName: credential.fullName
-        )
-        #endif
+
 
         // İsim yalnızca ilk girişte gelir; sonraki girişlerde saklanan değeri koruyoruz.
         let name = Self.formattedName(credential.fullName) ?? keychain.get(KeychainStore.Key.displayName)
@@ -142,9 +129,7 @@ final class AppleAuthService: AuthServiceProtocol {
         keychain.remove(KeychainStore.Key.appleUserID)
         keychain.remove(KeychainStore.Key.displayName)
         keychain.remove(KeychainStore.Key.email)
-        #if canImport(FirebaseAuth)
-        FirebaseAuthBridge.signOut()
-        #endif
+
         currentUser = nil
     }
 
@@ -156,11 +141,11 @@ final class AppleAuthService: AuthServiceProtocol {
         let devID = keychain.get(KeychainStore.Key.userID) ?? "local-dev-user"
         keychain.set(devID, for: KeychainStore.Key.userID)
         keychain.set(devID, for: KeychainStore.Key.appleUserID)
-        keychain.set("Geliştirme Kullanıcısı", for: KeychainStore.Key.displayName)
+        keychain.set(L10n.text("Geliştirme Kullanıcısı"), for: KeychainStore.Key.displayName)
         currentUser = AuthenticatedUser(
             id: devID,
             appleUserID: devID,
-            displayName: "Geliştirme Kullanıcısı",
+            displayName: L10n.text("Geliştirme Kullanıcısı"),
             email: nil
         )
     }

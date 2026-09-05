@@ -25,7 +25,7 @@ protocol RemoteDataSource: Sendable {
 /// Hiçbir şey yapmaz, hata da fırlatmaz — uygulama sorunsuz çalışmaya devam eder.
 struct DisabledRemoteDataSource: RemoteDataSource {
     var isConfigured: Bool { false }
-    var statusDescription: String { "Bulut yedekleme yapılandırılmadı" }
+    var statusDescription: String { L10n.text("Bulut yedekleme yapılandırılmadı") }
 
     func fetchChanges(since date: Date?, userID: String) async throws -> RemoteSnapshot {
         RemoteSnapshot()
@@ -48,11 +48,7 @@ struct DisabledRemoteDataSource: RemoteDataSource {
 /// doğru olur ve gerçek Firestore kaynağı kullanılır. Tek satır bile değiştirmeniz gerekmez.
 enum RemoteDataSourceFactory {
     static func make() -> RemoteDataSource {
-        #if canImport(FirebaseFirestore)
-        return FirestoreRemoteDataSource()
-        #else
         return DisabledRemoteDataSource()
-        #endif
     }
 }
 
@@ -64,9 +60,9 @@ enum SyncError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .notConfigured:
-            return "Bulut yedekleme henüz yapılandırılmadı. Kurulum adımları için README dosyasına bakın."
+            return L10n.text("Bulut yedekleme henüz yapılandırılmadı. Kurulum adımları için README dosyasına bakın.")
         case .notAuthenticated:
-            return "Yedekleme için oturum açmanız gerekiyor."
+            return L10n.text("Yedekleme için oturum açmanız gerekiyor.")
         case .remote(let message):
             return message
         }

@@ -152,7 +152,7 @@ struct DashboardView: View {
             if viewModel.summary.hasUnconvertedAmounts {
                 InlineNotice(
                     systemImage: "exclamationmark.triangle.fill",
-                    message: "Bazı işlemlerin kuru bulunamadı; tutarlar çevrilmeden toplandı. İnternet bağlantısı gelince kur güncellenecek."
+                    message: L10n.text("Bazı işlemlerin kuru bulunamadı; tutarlar çevrilmeden toplandı. İnternet bağlantısı gelince kur güncellenecek.")
                 )
             }
 
@@ -201,14 +201,14 @@ struct DashboardView: View {
 
                 HStack {
                     SummaryTile(
-                        title: "Toplam Gelir",
+                        title: L10n.text("Toplam Gelir"),
                         amount: viewModel.summary.income,
                         currency: settings.mainCurrency,
                         tint: AppTheme.income,
                         systemImage: "arrow.down.circle.fill"
                     )
                     SummaryTile(
-                        title: "Toplam Gider",
+                        title: L10n.text("Toplam Gider"),
                         amount: viewModel.summary.expense,
                         currency: settings.mainCurrency,
                         tint: AppTheme.expense,
@@ -263,8 +263,8 @@ struct DashboardView: View {
                 .frame(height: 150)
 
                 HStack(spacing: 16) {
-                    LegendDot(color: AppTheme.income, title: "Gelir")
-                    LegendDot(color: AppTheme.expense, title: "Gider")
+                    LegendDot(color: AppTheme.income, title: L10n.text("Gelir"))
+                    LegendDot(color: AppTheme.expense, title: L10n.text("Gider"))
                 }
             }
         }
@@ -277,7 +277,7 @@ struct DashboardView: View {
                     .font(.subheadline.weight(.semibold))
 
                 ComparisonRow(
-                    title: "Gelir",
+                    title: L10n.text("Gelir"),
                     change: comparison.incomeChange,
                     increaseIsPositive: true,
                     currentValue: comparison.current.income,
@@ -285,7 +285,7 @@ struct DashboardView: View {
                     currency: settings.mainCurrency
                 )
                 ComparisonRow(
-                    title: "Gider",
+                    title: L10n.text("Gider"),
                     change: comparison.expenseChange,
                     increaseIsPositive: false,
                     currentValue: comparison.current.expense,
@@ -293,7 +293,7 @@ struct DashboardView: View {
                     currency: settings.mainCurrency
                 )
                 ComparisonRow(
-                    title: "Net",
+                    title: L10n.text("Net"),
                     change: comparison.netChange,
                     increaseIsPositive: true,
                     currentValue: comparison.current.net,
@@ -307,8 +307,12 @@ struct DashboardView: View {
     private func topCategoriesCard(_ viewModel: DashboardViewModel) -> some View {
         CardContainer {
             VStack(alignment: .leading, spacing: 12) {
-                Text("En Çok Harcama")
-                    .font(.subheadline.weight(.semibold))
+                HStack {
+                    Text("En Çok Harcama")
+                        .font(.subheadline.weight(.semibold))
+                    Spacer()
+                    CategoryManagerButton()
+                }
 
                 ForEach(viewModel.topExpenseCategories) { item in
                     HStack(spacing: 12) {
@@ -343,9 +347,9 @@ struct DashboardView: View {
                 if viewModel.recentTransactions.isEmpty {
                     EmptyStateView(
                         systemImage: "tray",
-                        title: "Kayıt yok",
-                        message: "Bu dönemde henüz işlem eklenmemiş.",
-                        actionTitle: "Gider ekle",
+                        title: L10n.text("Kayıt yok"),
+                        message: L10n.text("Bu dönemde henüz işlem eklenmemiş."),
+                        actionTitle: L10n.text("Gider ekle"),
                         action: { onQuickAdd(.expense) }
                     )
                 } else {
@@ -435,7 +439,7 @@ private struct ComparisonRow: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text(Formatters.money(currentValue, currency: currency))
                     .font(.footnote.weight(.semibold))
-                Text("önce " + Formatters.money(previousValue, currency: currency))
+                Text(L10n.format("Önce %@", Formatters.money(previousValue, currency: currency)))
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
             }

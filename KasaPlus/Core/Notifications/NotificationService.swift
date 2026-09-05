@@ -26,11 +26,11 @@ final class NotificationService {
 
     var statusDescription: String {
         switch authorizationStatus {
-        case .authorized, .provisional: return "İzin verildi"
-        case .denied: return "Kapalı — Ayarlar ▸ Bildirimler"
-        case .notDetermined: return "Henüz sorulmadı"
-        case .ephemeral: return "Geçici izin"
-        @unknown default: return "Bilinmiyor"
+        case .authorized, .provisional: return L10n.text("İzin verildi")
+        case .denied: return L10n.text("Kapalı — Ayarlar ▸ Bildirimler")
+        case .notDetermined: return L10n.text("Henüz sorulmadı")
+        case .ephemeral: return L10n.text("Geçici izin")
+        @unknown default: return L10n.text("Bilinmiyor")
         }
     }
 

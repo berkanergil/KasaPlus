@@ -129,8 +129,8 @@ struct BankManagementView: View {
     private func prepareDeletion(of bank: Bank) {
         let count = session.transactionCount(bankID: bank.id)
         deletionWarning = count > 0
-            ? "\"\(bank.name)\" bankasına bağlı \(count) işlem var. Banka silinse de işlemleriniz korunur; listede \"Silinmiş banka\" olarak görünür."
-            : "\"\(bank.name)\" silinecek."
+            ? L10n.format("%@ bankasına bağlı %lld işlem var. Banka silinse de işlemleriniz korunur; listede \"Silinmiş banka\" olarak görünür.", "\"\(bank.name)\"", count)
+            : L10n.format("%@ silinecek.", "\"\(bank.name)\"")
         pendingDeletion = bank
     }
 }

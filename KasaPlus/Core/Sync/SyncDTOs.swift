@@ -13,6 +13,9 @@ struct TransactionDTO: Codable, Identifiable, Equatable, Sendable {
     let categoryID: UUID
     let bankID: UUID?
     let note: String?
+    let recurrenceGroupID: UUID?
+    let recurrenceFrequency: String?
+    let recurrenceEndDate: Date?
     let userID: String
     let createdAt: Date
     let updatedAt: Date
@@ -28,6 +31,9 @@ struct TransactionDTO: Codable, Identifiable, Equatable, Sendable {
         self.categoryID = model.categoryID
         self.bankID = model.bankID
         self.note = model.note
+        self.recurrenceGroupID = model.recurrenceGroupID
+        self.recurrenceFrequency = model.recurrenceFrequencyRaw
+        self.recurrenceEndDate = model.recurrenceEndDate
         self.userID = model.userID
         self.createdAt = model.createdAt
         self.updatedAt = model.updatedAt
@@ -37,7 +43,8 @@ struct TransactionDTO: Codable, Identifiable, Equatable, Sendable {
     init(
         id: UUID, amount: Double, date: Date, type: String, currency: String,
         paymentMethod: String, categoryID: UUID, bankID: UUID?, note: String?, userID: String,
-        createdAt: Date, updatedAt: Date, isDeleted: Bool
+        createdAt: Date, updatedAt: Date, isDeleted: Bool,
+        recurrenceGroupID: UUID? = nil, recurrenceFrequency: String? = nil, recurrenceEndDate: Date? = nil
     ) {
         self.id = id
         self.amount = amount
@@ -48,6 +55,9 @@ struct TransactionDTO: Codable, Identifiable, Equatable, Sendable {
         self.categoryID = categoryID
         self.bankID = bankID
         self.note = note
+        self.recurrenceGroupID = recurrenceGroupID
+        self.recurrenceFrequency = recurrenceFrequency
+        self.recurrenceEndDate = recurrenceEndDate
         self.userID = userID
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -71,6 +81,9 @@ struct TransactionDTO: Codable, Identifiable, Equatable, Sendable {
         ]
         if let note { data["note"] = note }
         if let bankID { data["bankID"] = bankID.uuidString }
+        if let recurrenceGroupID { data["recurrenceGroupID"] = recurrenceGroupID.uuidString }
+        if let recurrenceFrequency { data["recurrenceFrequency"] = recurrenceFrequency }
+        if let recurrenceEndDate { data["recurrenceEndDate"] = recurrenceEndDate.timeIntervalSince1970 }
         return data
     }
 
@@ -95,6 +108,9 @@ struct TransactionDTO: Codable, Identifiable, Equatable, Sendable {
         self.categoryID = categoryID
         self.bankID = (data["bankID"] as? String).flatMap(UUID.init(uuidString:))
         self.note = data["note"] as? String
+        self.recurrenceGroupID = (data["recurrenceGroupID"] as? String).flatMap(UUID.init(uuidString:))
+        self.recurrenceFrequency = data["recurrenceFrequency"] as? String
+        self.recurrenceEndDate = (data["recurrenceEndDate"] as? Double).map { Date(timeIntervalSince1970: $0) }
         self.userID = userID
         self.createdAt = Date(timeIntervalSince1970: data["createdAt"] as? Double ?? updatedValue)
         self.updatedAt = Date(timeIntervalSince1970: updatedValue)

@@ -49,10 +49,9 @@ struct TransactionFilterView: View {
                     }
                 }
 
-                Section("Kategoriler") {
+                Section {
                     if session.categories.isEmpty {
-                        Text("Kategori bulunamadı.")
-                            .foregroundStyle(.secondary)
+                        CategoryEmptyRow(message: "Kategori bulunamadı. Eklemek için dokunun.")
                     } else {
                         ForEach(session.categories) { category in
                             MultiSelectRow(
@@ -63,6 +62,8 @@ struct TransactionFilterView: View {
                             )
                         }
                     }
+                } header: {
+                    CategorySectionHeader(title: "Kategoriler")
                 }
 
                 Section {

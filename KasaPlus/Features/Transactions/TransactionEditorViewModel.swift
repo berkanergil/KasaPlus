@@ -28,7 +28,7 @@ final class TransactionEditorViewModel {
     }
 
     var title: String {
-        isEditing ? "İşlemi Düzenle" : (draft.type == .income ? "Gelir Ekle" : "Gider Ekle")
+        isEditing ? L10n.text("İşlemi Düzenle") : (draft.type == .income ? L10n.text("Gelir Ekle") : L10n.text("Gider Ekle"))
     }
 
     var availableCategories: [Category] {
@@ -63,12 +63,12 @@ final class TransactionEditorViewModel {
     @discardableResult
     func save() -> Bool {
         guard draft.isValid else {
-            errorMessage = "Lütfen tutar girin ve bir kategori seçin."
+            errorMessage = L10n.text("Lütfen tutar girin ve bir kategori seçin.")
             return false
         }
         let success = session.saveTransaction(draft)
         if !success {
-            errorMessage = session.lastErrorMessage ?? "Kayıt kaydedilemedi."
+            errorMessage = session.lastErrorMessage ?? L10n.text("Kayıt kaydedilemedi.")
         }
         return success
     }

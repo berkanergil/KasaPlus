@@ -13,22 +13,22 @@ enum PaymentMethod: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .cash: return "Nakit"
-        case .creditCard: return "Kredi Kartı"
-        case .debitCard: return "Banka Kartı"
-        case .bankTransfer: return "Banka Transferi"
-        case .check: return "Çek"
+        case .cash: return L10n.text("Nakit")
+        case .creditCard: return L10n.text("Kredi Kartı")
+        case .debitCard: return L10n.text("Banka Kartı")
+        case .bankTransfer: return L10n.text("Banka Transferi")
+        case .check: return L10n.text("Çek")
         }
     }
 
     /// Ayarlar / filtre gibi dar alanlarda kullanılan kısa ad.
     var shortTitle: String {
         switch self {
-        case .cash: return "Nakit"
-        case .creditCard: return "Kredi K."
-        case .debitCard: return "Banka K."
-        case .bankTransfer: return "Havale"
-        case .check: return "Çek"
+        case .cash: return L10n.text("Nakit")
+        case .creditCard: return L10n.text("Kredi K.")
+        case .debitCard: return L10n.text("Banka K.")
+        case .bankTransfer: return L10n.text("Havale")
+        case .check: return L10n.text("Çek")
         }
     }
 

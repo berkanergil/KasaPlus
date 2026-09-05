@@ -136,8 +136,8 @@ struct CategoryManagementView: View {
                 let count = session.transactionCount(categoryID: category.id)
                 Text(
                     [
-                        category.isDefault ? "Hazır kategori" : nil,
-                        count == 0 ? "Kayıt yok" : "\(count) işlem"
+                        category.isDefault ? L10n.text("Hazır kategori") : nil,
+                        count == 0 ? L10n.text("Kayıt yok") : L10n.format("%lld işlem", count)
                     ]
                     .compactMap { $0 }
                     .joined(separator: " · ")
@@ -171,8 +171,8 @@ struct CategoryManagementView: View {
     private func prepareDeletion(of category: Category) {
         let count = session.transactionCount(categoryID: category.id)
         deletionWarning = count > 0
-            ? "\"\(category.name)\" kategorisine bağlı \(count) işlem var. Kategori silinse de işlemleriniz korunur; listede \"Silinmiş kategori\" olarak görünür."
-            : "\"\(category.name)\" kategorisi silinecek."
+            ? L10n.format("%@ kategorisine bağlı %lld işlem var. Kategori silinse de işlemleriniz korunur; listede \"Silinmiş kategori\" olarak görünür.", "\"\(category.name)\"", count)
+            : L10n.format("%@ kategorisi silinecek.", "\"\(category.name)\"")
         pendingDeletion = category
     }
 }

@@ -15,7 +15,7 @@ struct TransactionRowView: View {
             )
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(category?.name ?? "Silinmiş kategori")
+                Text(category?.name ?? L10n.text("Silinmiş kategori"))
                     .font(.subheadline.weight(.medium))
                     .lineLimit(1)
 
@@ -30,6 +30,10 @@ struct TransactionRowView: View {
                     if let note = transaction.note, !note.isEmpty {
                         Text("·")
                         Text(note).lineLimit(1)
+                    }
+                    if let frequency = transaction.recurrenceFrequency {
+                        Text("·")
+                        Label(frequency.shortTitle, systemImage: "repeat")
                     }
                 }
                 .font(.caption)
@@ -62,7 +66,7 @@ struct TransactionRowView: View {
     private var accessibilityText: String {
         let typeText = transaction.type.title
         let amountText = Formatters.money(transaction.amount, currency: transaction.currency)
-        let categoryText = category?.name ?? "Silinmiş kategori"
+        let categoryText = category?.name ?? L10n.text("Silinmiş kategori")
         let bankText = bankName.map { ", \($0)" } ?? ""
         return "\(typeText), \(categoryText), \(amountText), \(transaction.paymentMethod.title)\(bankText)"
     }

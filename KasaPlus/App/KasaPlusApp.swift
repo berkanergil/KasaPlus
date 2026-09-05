@@ -1,9 +1,7 @@
 import SwiftUI
 import SwiftData
 
-#if canImport(FirebaseCore)
-import FirebaseCore
-#endif
+
 
 @main
 struct KasaPlusApp: App {
@@ -23,14 +21,7 @@ struct KasaPlusApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
-        // 1) Firebase yapılandırması — SDK ve GoogleService-Info.plist varsa çalışır,
-        //    yoksa bu blok derlemeye hiç girmez.
-        #if canImport(FirebaseCore)
-        if FirebaseApp.app() == nil,
-           Bundle.main.url(forResource: "GoogleService-Info", withExtension: "plist") != nil {
-            FirebaseApp.configure()
-        }
-        #endif
+
 
         // 2) Yerel depo
         let container = PersistenceController.makeContainer()
@@ -62,6 +53,7 @@ struct KasaPlusApp: App {
                 .environment(exchangeRates)
                 .environment(notificationService)
                 .environment(notificationRouter)
+                .environment(\.locale, settings.language.locale)
                 .preferredColorScheme(settings.appearance.colorScheme)
                 .tint(AppTheme.accent)
         }

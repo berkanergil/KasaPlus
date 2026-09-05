@@ -10,8 +10,6 @@ struct PlannedPaymentEditorView: View {
 
     @State var draft: PlannedPaymentDraft
     @State private var errorMessage: String?
-    @State private var isCategoryManagerPresented = false
-    @State private var isBankManagerPresented = false
 
     private var isEditing: Bool { draft.id != nil }
 
@@ -27,10 +25,11 @@ struct PlannedPaymentEditorView: View {
 
                 Section("Tutar") {
                     HStack(spacing: 12) {
-                        TextField("0,00", value: $draft.amount, format: .number.precision(.fractionLength(0...2)))
-                            .keyboardType(.decimalPad)
-                            .font(.system(size: 30, weight: .semibold, design: .rounded))
-                            .foregroundStyle(AppTheme.expense)
+                        AmountField(
+                            amount: $draft.amount,
+                            tint: AppTheme.expense,
+                            fontSize: 30
+                        )
 
                         Picker("Para birimi", selection: $draft.currency) {
                             ForEach(Currency.allCases) { currency in
@@ -51,51 +50,6 @@ struct PlannedPaymentEditorView: View {
                     }
                 }
 
-                Section {
-                    DatePicker(
-                        "Vade tarihi",
-                        selection: $draft.dueDate,
-                        displayedComponents: [.date, .hourAndMinute]
-                    )
-                    .environment(\.locale, Formatters.locale)
-
-                    Toggle(isOn: $draft.reminderEnabled) {
-                        Label("Hatırlat", systemImage: "bell.badge")
-                    }
-                } header: {
-                    Text("Vade")
-                } footer: {
-                    if draft.reminderEnabled {
-                        Text("Vadeden 1 hafta önce, 1 gün önce ve vade günü bildirim alırsınız. Vade günü bildiriminde \"Ödedim\" ve \"Ertele\" butonları bulunur.")
-                    } else {
-                        Text("Bu ödeme için bildirim gönderilmez.")
-                    }
-                }
-
-                Section {
-                    if expenseCategories.isEmpty {
-                        Button {
-                            isCategoryManagerPresented = true
-                        } label: {
-                            Label("Gider kategorisi ekleyin", systemImage: "plus.circle")
-                        }
-                    } else {
-                        CategoryPickerGrid(
-                            categories: expenseCategories,
-                            selection: $draft.categoryID
-                        )
-                        .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
-                    }
-                } header: {
-                    HStack {
-                        Text("Kategori")
-                        Spacer()
-                        Button("Yönet") { isCategoryManagerPresented = true }
-                            .font(.caption)
-                            .textCase(nil)
-                    }
-                }
-
                 Section("Ödeme Yöntemi") {
                     Picker(selection: $draft.paymentMethod) {
                         ForEach(PaymentMethod.allCases) { method in
@@ -109,10 +63,66 @@ struct PlannedPaymentEditorView: View {
                     if draft.paymentMethod.requiresBank {
                         BankPickerRow(
                             banks: session.banks,
-                            selection: $draft.bankID,
-                            onManage: { isBankManagerPresented = true }
+                            selection: $draft.bankID
                         )
                     }
+                }
+
+                Section {
+                    DatePicker(
+                        draft.isRecurring ? "Başlangıç tarihi" : "Vade tarihi",
+                        selection: $draft.dueDate,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    .environment(\.locale, Formatters.locale)
+
+                    Toggle(isOn: $draft.isRecurring) {
+                        Label("Tekrarlayan ödeme", systemImage: "repeat")
+                    }
+
+                    if draft.isRecurring {
+                        Picker("Tekrarlama", selection: $draft.recurrenceFrequency) {
+                            ForEach(RecurrenceFrequency.allCases) { frequency in
+                                Text(frequency.title).tag(frequency)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+
+                        DatePicker(
+                            "Bitiş tarihi",
+                            selection: $draft.recurrenceEndDate,
+                            in: draft.dueDate...,
+                            displayedComponents: .date
+                        )
+                        .environment(\.locale, Formatters.locale)
+
+                        Label(
+                            "\(draft.recurrenceOccurrenceCount) planlı ödeme oluşturulacak",
+                            systemImage: "calendar.badge.plus"
+                        )
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    }
+
+                    Toggle(isOn: $draft.reminderEnabled) {
+                        Label("Hatırlat", systemImage: "bell.badge")
+                    }
+                } header: {
+                    Text("Vade")
+                }
+
+                Section {
+                    if expenseCategories.isEmpty {
+                        CategoryEmptyRow(message: "Gider kategorisi yok. Eklemek için dokunun.")
+                    } else {
+                        CategoryPickerGrid(
+                            categories: expenseCategories,
+                            selection: $draft.categoryID
+                        )
+                        .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                    }
+                } header: {
+                    CategorySectionHeader()
                 }
 
                 Section("Not (opsiyonel)") {
@@ -141,12 +151,6 @@ struct PlannedPaymentEditorView: View {
                         .disabled(!draft.isValid)
                 }
             }
-            .sheet(isPresented: $isCategoryManagerPresented) {
-                CategoryManagementView()
-            }
-            .sheet(isPresented: $isBankManagerPresented) {
-                BankManagementView()
-            }
             .task {
                 if draft.categoryID == nil {
                     draft.categoryID = expenseCategories.first?.id
@@ -155,10 +159,25 @@ struct PlannedPaymentEditorView: View {
                     draft.bankID = session.banks.first?.id
                 }
             }
+            .onChange(of: session.dataVersion) { _, _ in
+                // Kategori yönetiminden dönüldüğünde seçim hâlâ geçerli mi?
+                if draft.categoryID == nil
+                    || !expenseCategories.contains(where: { $0.id == draft.categoryID }) {
+                    draft.categoryID = expenseCategories.first?.id
+                }
+            }
             .onChange(of: draft.paymentMethod) { _, newValue in
                 if newValue.requiresBank, draft.bankID == nil {
                     draft.bankID = session.banks.first?.id
                 }
+            }
+            .onChange(of: draft.isRecurring) { _, isRecurring in
+                guard isRecurring, draft.recurrenceEndDate < draft.dueDate else { return }
+                draft.recurrenceEndDate = draft.dueDate.adding(.year, 1)
+            }
+            .onChange(of: draft.dueDate) { _, startDate in
+                guard draft.isRecurring, draft.recurrenceEndDate < startDate else { return }
+                draft.recurrenceEndDate = startDate.adding(.year, 1)
             }
         }
         .presentationDragIndicator(.visible)
@@ -170,7 +189,7 @@ struct PlannedPaymentEditorView: View {
 
     private func save() {
         guard draft.isValid else {
-            errorMessage = "Başlık, tutar ve kategori zorunludur."
+            errorMessage = L10n.text("Başlık, tutar ve kategori zorunludur.")
             return
         }
         if session.savePlannedPayment(draft) {
@@ -182,7 +201,7 @@ struct PlannedPaymentEditorView: View {
             }
             dismiss()
         } else {
-            errorMessage = session.lastErrorMessage ?? "Kayıt kaydedilemedi."
+            errorMessage = session.lastErrorMessage ?? L10n.text("Kayıt kaydedilemedi.")
         }
     }
 }
@@ -192,15 +211,12 @@ struct PlannedPaymentEditorView: View {
 struct BankPickerRow: View {
     let banks: [Bank]
     @Binding var selection: UUID?
-    let onManage: () -> Void
 
     var body: some View {
         if banks.isEmpty {
-            Button {
-                onManage()
-            } label: {
-                Label("Banka ekleyin", systemImage: "plus.circle")
-            }
+            Label("Banka yok. Ayarlar > Bankalar'dan ekleyin.", systemImage: "exclamationmark.triangle")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
         } else {
             Picker(selection: $selection) {
                 Text("Seçilmedi").tag(UUID?.none)
@@ -211,13 +227,6 @@ struct BankPickerRow: View {
                 Text("Banka")
             }
             .pickerStyle(.navigationLink)
-
-            Button {
-                onManage()
-            } label: {
-                Label("Bankaları yönet", systemImage: "building.columns")
-                    .font(.footnote)
-            }
         }
     }
 }

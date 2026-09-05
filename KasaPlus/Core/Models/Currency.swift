@@ -22,10 +22,10 @@ enum Currency: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .TRY: return "Türk Lirası"
-        case .USD: return "ABD Doları"
-        case .EUR: return "Euro"
-        case .GBP: return "İngiliz Sterlini"
+        case .TRY: return L10n.text("Türk Lirası")
+        case .USD: return L10n.text("ABD Doları")
+        case .EUR: return L10n.text("Euro")
+        case .GBP: return L10n.text("İngiliz Sterlini")
         }
     }
 

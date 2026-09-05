@@ -47,8 +47,8 @@ struct ReportsView: View {
                 CardContainer {
                     EmptyStateView(
                         systemImage: "chart.pie",
-                        title: "Bu dönemde veri yok",
-                        message: "Rapor görebilmek için bu döneme ait gelir veya gider kaydı ekleyin."
+                        title: L10n.text("Bu dönemde veri yok"),
+                        message: L10n.text("Rapor görebilmek için bu döneme ait gelir veya gider kaydı ekleyin.")
                     )
                 }
             } else {
@@ -73,19 +73,19 @@ struct ReportsView: View {
 
                 HStack {
                     SummaryTile(
-                        title: "Gelir",
+                        title: L10n.text("Gelir"),
                         amount: viewModel.summary.income,
                         currency: settings.mainCurrency,
                         tint: AppTheme.income
                     )
                     SummaryTile(
-                        title: "Gider",
+                        title: L10n.text("Gider"),
                         amount: viewModel.summary.expense,
                         currency: settings.mainCurrency,
                         tint: AppTheme.expense
                     )
                     SummaryTile(
-                        title: "Net",
+                        title: L10n.text("Net"),
                         amount: viewModel.summary.net,
                         currency: settings.mainCurrency,
                         tint: viewModel.summary.net >= 0 ? AppTheme.income : AppTheme.expense,
@@ -113,6 +113,7 @@ struct ReportsView: View {
                     Text("Kategori Dağılımı")
                         .font(.subheadline.weight(.semibold))
                     Spacer()
+                    CategoryManagerButton()
                 }
 
                 Picker("Tür", selection: $viewModel.breakdownType) {
@@ -259,8 +260,8 @@ struct ReportsView: View {
                 .frame(height: 200)
 
                 HStack(spacing: 16) {
-                    LegendDot(color: AppTheme.income, title: "Gelir")
-                    LegendDot(color: AppTheme.expense, title: "Gider")
+                    LegendDot(color: AppTheme.income, title: L10n.text("Gelir"))
+                    LegendDot(color: AppTheme.expense, title: L10n.text("Gider"))
                 }
             }
         }
@@ -295,8 +296,8 @@ struct ReportsView: View {
 
                 Divider()
 
-                comparisonRow("Gelir", comparison.previous.income, comparison.current.income, comparison.incomeChange, true)
-                comparisonRow("Gider", comparison.previous.expense, comparison.current.expense, comparison.expenseChange, false)
+                comparisonRow(L10n.text("Gelir"), comparison.previous.income, comparison.current.income, comparison.incomeChange, true)
+                comparisonRow(L10n.text("Gider"), comparison.previous.expense, comparison.current.expense, comparison.expenseChange, false)
                 comparisonRow("Net", comparison.previous.net, comparison.current.net, comparison.netChange, true)
             }
         }

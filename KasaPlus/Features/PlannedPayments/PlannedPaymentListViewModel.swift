@@ -48,16 +48,16 @@ final class PlannedPaymentListViewModel {
 
         var result: [Section] = []
         if !overdue.isEmpty {
-            result.append(Section(id: "overdue", title: "Gecikmiş", systemImage: "exclamationmark.triangle.fill", items: overdue))
+            result.append(Section(id: "overdue", title: L10n.text("Gecikmiş"), systemImage: "exclamationmark.triangle.fill", items: overdue))
         }
         if !thisWeek.isEmpty {
-            result.append(Section(id: "week", title: "Bu hafta", systemImage: "calendar.badge.clock", items: thisWeek))
+            result.append(Section(id: "week", title: L10n.text("Bu hafta"), systemImage: "calendar.badge.clock", items: thisWeek))
         }
         if !later.isEmpty {
-            result.append(Section(id: "later", title: "İleri tarihli", systemImage: "calendar", items: later))
+            result.append(Section(id: "later", title: L10n.text("İleri tarihli"), systemImage: "calendar", items: later))
         }
         if showsPaid, !paid.isEmpty {
-            result.append(Section(id: "paid", title: "Ödenenler", systemImage: "checkmark.circle.fill", items: paid))
+            result.append(Section(id: "paid", title: L10n.text("Ödenenler"), systemImage: "checkmark.circle.fill", items: paid))
         }
 
         sections = result

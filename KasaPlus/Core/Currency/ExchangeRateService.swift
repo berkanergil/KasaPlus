@@ -69,8 +69,8 @@ final class ExchangeRateService {
     }
 
     var statusDescription: String {
-        if snapshot.isPlaceholder { return "Kur henüz güncellenmedi" }
-        return "Son güncelleme: " + Formatters.dateTime.string(from: snapshot.fetchedAt)
+        if snapshot.isPlaceholder { return L10n.text("Kur henüz güncellenmedi") }
+        return L10n.format("Son güncelleme: %@", Formatters.dateTime.string(from: snapshot.fetchedAt))
     }
 
     func refreshIfNeeded() async {
@@ -121,7 +121,7 @@ final class ExchangeRateService {
             persist(newSnapshot)
         } catch {
             // Ağ yoksa mevcut cache kullanılmaya devam eder — uygulama çalışmayı sürdürür.
-            lastErrorMessage = "Kur bilgisi güncellenemedi. Son bilinen kur kullanılıyor."
+            lastErrorMessage = L10n.text("Kur bilgisi güncellenemedi. Son bilinen kur kullanılıyor.")
         }
     }
 

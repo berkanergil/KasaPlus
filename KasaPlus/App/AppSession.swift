@@ -83,7 +83,7 @@ final class AppSession {
     }
 
     func categoryName(id: UUID?) -> String {
-        category(id: id)?.name ?? "Silinmiş kategori"
+        category(id: id)?.name ?? L10n.text("Silinmiş kategori")
     }
 
     func bank(id: UUID?) -> Bank? {
@@ -93,7 +93,7 @@ final class AppSession {
 
     func bankName(id: UUID?) -> String? {
         guard let id else { return nil }
-        return banks.first { $0.id == id }?.name ?? "Silinmiş banka"
+        return banks.first { $0.id == id }?.name ?? L10n.text("Silinmiş banka")
     }
 
     // MARK: - İşlemler

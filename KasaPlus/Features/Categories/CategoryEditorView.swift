@@ -130,7 +130,7 @@ struct CategoryEditorView: View {
 
     private func save() {
         guard draft.isValid else {
-            errorMessage = "Lütfen bir kategori adı girin."
+            errorMessage = L10n.text("Lütfen bir kategori adı girin.")
             return
         }
         if session.saveCategory(draft) {

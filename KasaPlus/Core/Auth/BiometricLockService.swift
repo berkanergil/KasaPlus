@@ -44,13 +44,13 @@ final class BiometricLockService {
         let context = LAContext()
         var error: NSError?
         guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
-            return "Cihaz Parolası"
+            return L10n.text("Cihaz Parolası")
         }
         switch context.biometryType {
         case .faceID: return "Face ID"
         case .touchID: return "Touch ID"
         case .opticID: return "Optic ID"
-        default: return "Cihaz Parolası"
+        default: return L10n.text("Cihaz Parolası")
         }
     }
 
@@ -87,21 +87,21 @@ final class BiometricLockService {
         defer { isAuthenticating = false }
 
         let context = LAContext()
-        context.localizedCancelTitle = "İptal"
-        context.localizedFallbackTitle = "Cihaz Parolasını Kullan"
+        context.localizedCancelTitle = L10n.text("İptal")
+        context.localizedFallbackTitle = L10n.text("Cihaz Parolasını Kullan")
 
         do {
             // `.deviceOwnerAuthentication` biyometri başarısız olursa
             // otomatik olarak cihaz parolasına düşer.
             let success = try await context.evaluatePolicy(
                 .deviceOwnerAuthentication,
-                localizedReason: "Kasa+ verilerinize erişmek için kimliğinizi doğrulayın."
+                localizedReason: L10n.text("Kasa+ verilerinize erişmek için kimliğinizi doğrulayın.")
             )
             if success { isLocked = false }
         } catch let error as LAError where error.code == .userCancel || error.code == .appCancel {
             lastErrorMessage = nil
         } catch {
-            lastErrorMessage = "Doğrulama başarısız. Tekrar deneyin."
+            lastErrorMessage = L10n.text("Doğrulama başarısız. Tekrar deneyin.")
         }
     }
 
@@ -113,16 +113,16 @@ final class BiometricLockService {
             return true
         }
         let context = LAContext()
-        context.localizedCancelTitle = "İptal"
+        context.localizedCancelTitle = L10n.text("İptal")
         do {
             let success = try await context.evaluatePolicy(
                 .deviceOwnerAuthentication,
-                localizedReason: "Uygulama kilidini etkinleştirmek için kimliğinizi doğrulayın."
+                localizedReason: L10n.text("Uygulama kilidini etkinleştirmek için kimliğinizi doğrulayın.")
             )
             isEnabled = success
             return success
         } catch {
-            lastErrorMessage = "Doğrulama başarısız. Tekrar deneyin."
+            lastErrorMessage = L10n.text("Doğrulama başarısız. Tekrar deneyin.")
             return false
         }
     }

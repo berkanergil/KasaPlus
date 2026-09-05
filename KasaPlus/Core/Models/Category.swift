@@ -7,25 +7,25 @@ import SwiftData
 final class Category {
     @Attribute(.unique) var id: UUID
 
-    var name: String
+    var name: String = ""
     /// SF Symbols adı
-    var iconName: String
+    var iconName: String = ""
     /// "#RRGGBB" biçiminde renk
-    var colorHex: String
+    var colorHex: String = ""
     /// `TransactionType.rawValue` — kategorinin hangi işlem türüne ait olduğu
-    var typeRaw: String
+    var typeRaw: String = ""
 
     /// Uygulamayla birlikte gelen hazır kategori mi?
-    var isDefault: Bool
+    var isDefault: Bool = false
     /// Listelerde sıralama önceliği
-    var sortOrder: Int
+    var sortOrder: Int = 0
 
     // MARK: - Çoklu kullanıcı / senkronizasyon alanları
 
-    var userID: String
-    var createdAt: Date
-    var updatedAt: Date
-    var isRemoved: Bool
+    var userID: String = ""
+    var createdAt: Date = Date.now
+    var updatedAt: Date = Date.now
+    var isRemoved: Bool = false
     var syncedAt: Date?
 
     init(

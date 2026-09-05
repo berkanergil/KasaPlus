@@ -21,9 +21,9 @@ enum AppearanceMode: String, CaseIterable, Identifiable, Codable, Sendable {
 
     var title: String {
         switch self {
-        case .system: return "Sistem"
-        case .light: return "Aydınlık"
-        case .dark: return "Karanlık"
+        case .system: return L10n.text("Sistem")
+        case .light: return L10n.text("Aydınlık")
+        case .dark: return L10n.text("Karanlık")
         }
     }
 

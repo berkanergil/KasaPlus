@@ -8,18 +8,18 @@ import SwiftData
 final class Bank {
     @Attribute(.unique) var id: UUID
 
-    var name: String
+    var name: String = ""
     /// Listelerdeki sıra (kullanıcı sürükleyerek değiştirebilir)
-    var sortOrder: Int
+    var sortOrder: Int = 0
     /// Uygulamayla birlikte gelen hazır banka mı?
-    var isDefault: Bool
+    var isDefault: Bool = false
 
     // MARK: - Çoklu kullanıcı / senkronizasyon alanları
 
-    var userID: String
-    var createdAt: Date
-    var updatedAt: Date
-    var isRemoved: Bool
+    var userID: String = ""
+    var createdAt: Date = Date.now
+    var updatedAt: Date = Date.now
+    var isRemoved: Bool = false
     var syncedAt: Date?
 
     init(

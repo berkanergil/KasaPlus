@@ -102,7 +102,7 @@ struct TransactionListView: View {
 
                     HStack(spacing: 12) {
                         SummaryTile(
-                            title: "Gelir",
+                            title: L10n.text("Gelir"),
                             amount: viewModel.summary.income,
                             currency: settings.mainCurrency,
                             tint: AppTheme.income,
@@ -110,7 +110,7 @@ struct TransactionListView: View {
                         )
                         Divider().frame(height: 32)
                         SummaryTile(
-                            title: "Gider",
+                            title: L10n.text("Gider"),
                             amount: viewModel.summary.expense,
                             currency: settings.mainCurrency,
                             tint: AppTheme.expense,
@@ -118,7 +118,7 @@ struct TransactionListView: View {
                         )
                         Divider().frame(height: 32)
                         SummaryTile(
-                            title: "Net",
+                            title: L10n.text("Net"),
                             amount: viewModel.summary.net,
                             currency: settings.mainCurrency,
                             tint: viewModel.summary.net >= 0 ? AppTheme.income : AppTheme.expense,
@@ -189,11 +189,11 @@ struct TransactionListView: View {
                 Section {
                     EmptyStateView(
                         systemImage: viewModel.filter.isActive ? "line.3.horizontal.decrease.circle" : "tray",
-                        title: viewModel.filter.isActive ? "Sonuç bulunamadı" : "Henüz kayıt yok",
+                        title: viewModel.filter.isActive ? L10n.text("Sonuç bulunamadı") : L10n.text("Henüz kayıt yok"),
                         message: viewModel.filter.isActive
-                            ? "Filtreleri değiştirerek tekrar deneyin."
-                            : "Bu dönemde kayıtlı bir gelir veya gider yok. Sağ üstteki + ile ekleyebilirsiniz.",
-                        actionTitle: viewModel.filter.isActive ? "Filtreleri temizle" : "Gider ekle",
+                            ? L10n.text("Filtreleri değiştirerek tekrar deneyin.")
+                            : L10n.text("Bu dönemde kayıtlı bir gelir veya gider yok. Sağ üstteki + ile ekleyebilirsiniz."),
+                        actionTitle: viewModel.filter.isActive ? L10n.text("Filtreleri temizle") : L10n.text("Gider ekle"),
                         action: {
                             if viewModel.filter.isActive {
                                 viewModel.resetFilter()

@@ -104,7 +104,7 @@ struct PlannedPaymentListView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(spacing: 12) {
                         SummaryTile(
-                            title: "Bekleyen toplam",
+                            title: L10n.text("Bekleyen toplam"),
                             amount: viewModel.pendingTotal,
                             currency: settings.mainCurrency,
                             tint: AppTheme.expense,
@@ -127,7 +127,7 @@ struct PlannedPaymentListView: View {
                     if notifications.authorizationStatus == .denied {
                         InlineNotice(
                             systemImage: "bell.slash.fill",
-                            message: "Bildirimler kapalı. Hatırlatma alabilmek için iOS Ayarlar ▸ Kasa+ ▸ Bildirimler'i açın."
+                            message: L10n.text("Bildirimler kapalı. Hatırlatma alabilmek için iOS Ayarlar ▸ Kasa+ ▸ Bildirimler'i açın.")
                         )
                     } else if notifications.authorizationStatus == .notDetermined {
                         Button {
@@ -144,7 +144,7 @@ struct PlannedPaymentListView: View {
                     if viewModel.hasUnconvertedAmounts {
                         InlineNotice(
                             systemImage: "exclamationmark.triangle.fill",
-                            message: "Bazı ödemelerin kuru bulunamadı; toplam çevrilmeden hesaplandı."
+                            message: L10n.text("Bazı ödemelerin kuru bulunamadı; toplam çevrilmeden hesaplandı.")
                         )
                     }
 
@@ -159,9 +159,9 @@ struct PlannedPaymentListView: View {
                 Section {
                     EmptyStateView(
                         systemImage: "calendar.badge.clock",
-                        title: "Planlı ödeme yok",
-                        message: "Kira, fatura, çek veya tedarikçi ödemelerinizi buraya ekleyin. Vadeden 1 hafta ve 1 gün önce hatırlatırız.",
-                        actionTitle: "Ödeme planla",
+                        title: L10n.text("Planlı ödeme yok"),
+                        message: L10n.text("Kira, fatura, çek veya tedarikçi ödemelerinizi buraya ekleyin. Vadeden 1 hafta ve 1 gün önce hatırlatırız."),
+                        actionTitle: L10n.text("Ödeme planla"),
                         action: {
                             editorRequest = PlannedPaymentEditorRequest(
                                 draft: .empty(currency: settings.defaultEntryCurrency)

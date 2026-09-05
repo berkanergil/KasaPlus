@@ -28,17 +28,17 @@ final class ReportsViewModel {
 
     var comparisonLabel: String {
         switch period {
-        case .week: return "Geçen hafta"
-        case .month: return "Geçen ay"
-        case .year: return "Geçen yıl"
+        case .week: return L10n.text("Geçen hafta")
+        case .month: return L10n.text("Geçen ay")
+        case .year: return L10n.text("Geçen yıl")
         }
     }
 
     var trendGranularityLabel: String {
         switch period {
-        case .week: return "Günlük kırılım"
-        case .month: return "Günlük kırılım"
-        case .year: return "Aylık kırılım"
+        case .week: return L10n.text("Günlük kırılım")
+        case .month: return L10n.text("Günlük kırılım")
+        case .year: return L10n.text("Aylık kırılım")
         }
     }
 

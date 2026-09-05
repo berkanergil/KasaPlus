@@ -1,9 +1,10 @@
 import Foundation
 
 /// Para ve tarih biçimlendirme yardımcıları. Tüm biçimlendiriciler tek yerde
-/// tutulur; oluşturma maliyetleri yüksek olduğu için `static let` ile cache'lenir.
+/// tutulur. Dil tercihi değiştiğinde yeni yerel ayarın hemen kullanılabilmesi için
+/// tarih biçimlendiricileri ihtiyaç anında üretilir.
 enum Formatters {
-    static let locale = Locale(identifier: "tr_TR")
+    static var locale: Locale { AppLanguage.current.locale }
 
     /// Tutarı, verilen para biriminin sembolüyle biçimlendirir. Örn. "₺1.250,00"
     static func money(_ amount: Double, currency: Currency, showsSign: Bool = false) -> String {
@@ -32,60 +33,60 @@ enum Formatters {
         return "%\(number)"
     }
 
-    static let dayHeader: DateFormatter = {
+    static var dayHeader: DateFormatter {
         let f = DateFormatter()
         f.locale = locale
         f.dateFormat = "d MMMM yyyy, EEEE"
         return f
-    }()
+    }
 
-    static let shortDay: DateFormatter = {
+    static var shortDay: DateFormatter {
         let f = DateFormatter()
         f.locale = locale
         f.dateFormat = "d MMM"
         return f
-    }()
+    }
 
-    static let monthYear: DateFormatter = {
+    static var monthYear: DateFormatter {
         let f = DateFormatter()
         f.locale = locale
         f.dateFormat = "MMMM yyyy"
         return f
-    }()
+    }
 
-    static let monthShort: DateFormatter = {
+    static var monthShort: DateFormatter {
         let f = DateFormatter()
         f.locale = locale
         f.dateFormat = "MMM"
         return f
-    }()
+    }
 
-    static let weekdayShort: DateFormatter = {
+    static var weekdayShort: DateFormatter {
         let f = DateFormatter()
         f.locale = locale
         f.dateFormat = "EEE"
         return f
-    }()
+    }
 
-    static let year: DateFormatter = {
+    static var year: DateFormatter {
         let f = DateFormatter()
         f.locale = locale
         f.dateFormat = "yyyy"
         return f
-    }()
+    }
 
-    static let dateTime: DateFormatter = {
+    static var dateTime: DateFormatter {
         let f = DateFormatter()
         f.locale = locale
         f.dateStyle = .medium
         f.timeStyle = .short
         return f
-    }()
+    }
 
     /// "Bugün" / "Dün" gibi göreli gün başlıkları.
     static func relativeDayTitle(for date: Date, calendar: Calendar = .turkish) -> String {
-        if calendar.isDateInToday(date) { return "Bugün" }
-        if calendar.isDateInYesterday(date) { return "Dün" }
+        if calendar.isDateInToday(date) { return L10n.text("Bugün") }
+        if calendar.isDateInYesterday(date) { return L10n.text("Dün") }
         return dayHeader.string(from: date)
     }
 }

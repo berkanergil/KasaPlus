@@ -20,7 +20,7 @@ struct SignInView: View {
                 VStack(spacing: 8) {
                     Text("Kasa+")
                         .font(.largeTitle.bold())
-                    Text("Eczanenizin günlük gelir ve giderlerini\nsaniyeler içinde kaydedin.")
+                    Text("Günlük gelir ve giderlerinizi\nsaniyeler içinde kaydedin.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
@@ -32,18 +32,18 @@ struct SignInView: View {
             VStack(alignment: .leading, spacing: 18) {
                 FeatureRow(
                     icon: "bolt.fill",
-                    title: "Hızlı kayıt",
-                    detail: "Gelir veya gideri iki dokunuşla ekleyin."
+                    title: L10n.text("Hızlı kayıt"),
+                    detail: L10n.text("Gelir veya gideri iki dokunuşla ekleyin.")
                 )
                 FeatureRow(
                     icon: "chart.line.uptrend.xyaxis",
-                    title: "Net raporlar",
-                    detail: "Haftalık, aylık ve yıllık kırılımlar."
+                    title: L10n.text("Net raporlar"),
+                    detail: L10n.text("Haftalık, aylık ve yıllık kırılımlar.")
                 )
                 FeatureRow(
                     icon: "wifi.slash",
-                    title: "İnternetsiz çalışır",
-                    detail: "Veriler cihazınızda; bağlantı gelince yedeklenir."
+                    title: L10n.text("İnternetsiz çalışır"),
+                    detail: L10n.text("Veriler cihazınızda; bağlantı gelince yedeklenir.")
                 )
             }
             .frame(maxWidth: 420)
@@ -109,7 +109,7 @@ struct SignInView: View {
             if (error as? ASAuthorizationError)?.code == .canceled {
                 errorMessage = nil
             } else {
-                errorMessage = "Giriş tamamlanamadı: \(error.localizedDescription)"
+                errorMessage = L10n.format("Giriş tamamlanamadı: %@", error.localizedDescription)
             }
         }
     }

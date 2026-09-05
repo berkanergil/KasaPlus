@@ -10,18 +10,18 @@ final class FinanceTransaction {
     /// Kararlı kimlik — Firestore doküman kimliği olarak da kullanılır.
     @Attribute(.unique) var id: UUID
 
-    var amount: Double
-    var date: Date
+    var amount: Double = 0.0
+    var date: Date = Date.now
 
     /// `TransactionType.rawValue`
-    var typeRaw: String
+    var typeRaw: String = ""
     /// `Currency.rawValue`
-    var currencyRaw: String
+    var currencyRaw: String = ""
     /// `PaymentMethod.rawValue`
-    var paymentMethodRaw: String
+    var paymentMethodRaw: String = ""
 
     /// İlişki yerine düz kimlik tutulur — senkronizasyonu ve çakışma çözümünü basitleştirir.
-    var categoryID: UUID
+    var categoryID: UUID = UUID()
 
     /// Nakit dışı ödeme yöntemlerinde işlemin bağlı olduğu banka.
     /// Nakit işlemlerde ve eski kayıtlarda `nil`'dir.
@@ -29,16 +29,23 @@ final class FinanceTransaction {
 
     var note: String?
 
+    /// Aynı tekrar planından üretilen kayıtları birbirine bağlar.
+    var recurrenceGroupID: UUID?
+    /// `RecurrenceFrequency.rawValue`
+    var recurrenceFrequencyRaw: String?
+    /// Tekrarlama planının son günü.
+    var recurrenceEndDate: Date?
+
     // MARK: - Çoklu kullanıcı / senkronizasyon alanları
 
     /// Şu an tek kullanıcı olsa da baştan bulunur (bkz. PRD 7.3).
-    var userID: String
+    var userID: String = ""
 
-    var createdAt: Date
+    var createdAt: Date = Date.now
     /// Çakışma çözümü "last-write-wins" bu alana göre yapılır.
-    var updatedAt: Date
+    var updatedAt: Date = Date.now
     /// Silinen kayıtlar için mezar taşı (tombstone) — uzak tarafa silmeyi bildirebilmek için.
-    var isRemoved: Bool
+    var isRemoved: Bool = false
     /// Buluta en son ne zaman gönderildiği. `nil` ise henüz senkronize edilmemiş.
     var syncedAt: Date?
 
@@ -52,6 +59,9 @@ final class FinanceTransaction {
         categoryID: UUID,
         bankID: UUID? = nil,
         note: String? = nil,
+        recurrenceGroupID: UUID? = nil,
+        recurrenceFrequency: RecurrenceFrequency? = nil,
+        recurrenceEndDate: Date? = nil,
         userID: String,
         createdAt: Date = .now,
         updatedAt: Date = .now,
@@ -67,6 +77,9 @@ final class FinanceTransaction {
         self.categoryID = categoryID
         self.bankID = bankID
         self.note = note
+        self.recurrenceGroupID = recurrenceGroupID
+        self.recurrenceFrequencyRaw = recurrenceFrequency?.rawValue
+        self.recurrenceEndDate = recurrenceEndDate
         self.userID = userID
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -91,6 +104,15 @@ extension FinanceTransaction {
     var paymentMethod: PaymentMethod {
         get { PaymentMethod.from(rawValue: paymentMethodRaw) }
         set { paymentMethodRaw = newValue.rawValue }
+    }
+
+    var recurrenceFrequency: RecurrenceFrequency? {
+        get { recurrenceFrequencyRaw.flatMap(RecurrenceFrequency.init(rawValue:)) }
+        set { recurrenceFrequencyRaw = newValue?.rawValue }
+    }
+
+    var isRecurring: Bool {
+        recurrenceGroupID != nil && recurrenceFrequency != nil
     }
 
     /// Bakiye hesabı için işaretli tutar (orijinal para biriminde).

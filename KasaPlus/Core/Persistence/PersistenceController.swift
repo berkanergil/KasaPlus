@@ -13,7 +13,7 @@ enum PersistenceController {
 
     /// Uygulamanın gerçek (diskte kalıcı) konteyneri.
     static func makeContainer() -> ModelContainer {
-        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false, cloudKitDatabase: .automatic)
         do {
             return try ModelContainer(for: schema, configurations: [configuration])
         } catch {

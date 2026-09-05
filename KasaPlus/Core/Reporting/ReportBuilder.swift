@@ -45,7 +45,7 @@ struct ReportBuilder {
             let category = categoryLookup(categoryID)
             return CategoryBreakdownItem(
                 id: categoryID,
-                name: category?.name ?? "Silinmiş kategori",
+                name: category?.name ?? L10n.text("Silinmiş kategori"),
                 iconName: category?.iconName ?? "questionmark.circle.fill",
                 colorHex: category?.colorHex ?? "#889096",
                 total: value.total,

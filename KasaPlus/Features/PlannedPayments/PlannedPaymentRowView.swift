@@ -45,6 +45,11 @@ struct PlannedPaymentRowView: View {
                             .font(.caption2)
                             .foregroundStyle(.tertiary)
                     }
+                    if let frequency = payment.recurrenceFrequency {
+                        Label(frequency.shortTitle, systemImage: "repeat")
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                    }
                 }
             }
 

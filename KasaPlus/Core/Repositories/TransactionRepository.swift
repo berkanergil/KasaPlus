@@ -51,8 +51,15 @@ struct TransactionDraft: Equatable, Sendable {
     /// Nakit dışı ödeme yöntemlerinde bağlı banka
     var bankID: UUID?
     var note: String
+    var isRecurring: Bool
+    var recurrenceFrequency: RecurrenceFrequency
+    var recurrenceEndDate: Date
 
-    static func empty(type: TransactionType = .expense, currency: Currency = .TRY) -> TransactionDraft {
+    static func empty(
+        type: TransactionType = .expense,
+        currency: Currency = .TRY,
+        calendar: Calendar = .turkish
+    ) -> TransactionDraft {
         TransactionDraft(
             id: nil,
             amount: 0,
@@ -62,7 +69,10 @@ struct TransactionDraft: Equatable, Sendable {
             paymentMethod: .cash,
             categoryID: nil,
             bankID: nil,
-            note: ""
+            note: "",
+            isRecurring: false,
+            recurrenceFrequency: .monthly,
+            recurrenceEndDate: calendar.date(byAdding: .year, value: 1, to: .now) ?? .now
         )
     }
 
@@ -75,7 +85,10 @@ struct TransactionDraft: Equatable, Sendable {
         paymentMethod: PaymentMethod,
         categoryID: UUID?,
         bankID: UUID? = nil,
-        note: String
+        note: String,
+        isRecurring: Bool = false,
+        recurrenceFrequency: RecurrenceFrequency = .monthly,
+        recurrenceEndDate: Date? = nil
     ) {
         self.id = id
         self.amount = amount
@@ -86,6 +99,11 @@ struct TransactionDraft: Equatable, Sendable {
         self.categoryID = categoryID
         self.bankID = bankID
         self.note = note
+        self.isRecurring = isRecurring
+        self.recurrenceFrequency = recurrenceFrequency
+        self.recurrenceEndDate = recurrenceEndDate
+            ?? Calendar.turkish.date(byAdding: .year, value: 1, to: date)
+            ?? date
     }
 
     init(transaction: FinanceTransaction) {
@@ -98,9 +116,23 @@ struct TransactionDraft: Equatable, Sendable {
         self.categoryID = transaction.categoryID
         self.bankID = transaction.bankID
         self.note = transaction.note ?? ""
+        self.isRecurring = transaction.isRecurring
+        self.recurrenceFrequency = transaction.recurrenceFrequency ?? .monthly
+        self.recurrenceEndDate = transaction.recurrenceEndDate
+            ?? Calendar.turkish.date(byAdding: .year, value: 1, to: transaction.date)
+            ?? transaction.date
     }
 
-    var isValid: Bool { amount > 0 && categoryID != nil }
+    var isValid: Bool {
+        amount > 0
+        && categoryID != nil
+        && (!isRecurring || date <= recurrenceEndDate.endOfDay())
+    }
+
+    var recurrenceOccurrenceCount: Int {
+        guard isRecurring else { return 0 }
+        return recurrenceFrequency.occurrenceDates(from: date, through: recurrenceEndDate).count
+    }
 }
 
 enum RepositoryError: LocalizedError {
@@ -109,8 +141,8 @@ enum RepositoryError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidDraft: return "Kayıt eksik. Tutar ve kategori zorunludur."
-        case .notFound: return "Kayıt bulunamadı."
+        case .invalidDraft: return L10n.text("Kayıt eksik. Tutar ve kategori zorunludur.")
+        case .notFound: return L10n.text("Kayıt bulunamadı.")
         }
     }
 }
@@ -217,25 +249,112 @@ final class SwiftDataTransactionRepository: TransactionRepositoryProtocol {
             existing.categoryID = categoryID
             existing.bankID = bankID
             existing.note = trimmedNote.isEmpty ? nil : trimmedNote
+            updateRecurrence(on: existing, from: draft)
+
+            // Tekil bir kayda sonradan tekrarlama eklenirse başlangıç tarihinden
+            // sonraki dönemleri de oluştur. Var olan tekrar grubunu düzenlerken
+            // yeni kayıt üretmeyerek çift kayıt oluşmasını engelleriz.
+            if draft.isRecurring, existing.recurrenceGroupID == nil {
+                let groupID = UUID()
+                existing.recurrenceGroupID = groupID
+                createFutureOccurrences(
+                    from: draft,
+                    after: existing.date,
+                    recurrenceGroupID: groupID,
+                    categoryID: categoryID,
+                    bankID: bankID,
+                    trimmedNote: trimmedNote
+                )
+            }
             existing.updatedAt = .now
             try context.save()
             return existing
         }
 
-        let item = FinanceTransaction(
+        let recurrenceGroupID = draft.isRecurring ? UUID() : nil
+        let dates = draft.isRecurring
+            ? draft.recurrenceFrequency.occurrenceDates(from: draft.date, through: draft.recurrenceEndDate)
+            : [draft.date]
+        guard let firstDate = dates.first else { throw RepositoryError.invalidDraft }
+
+        let item = makeTransaction(
+            from: draft,
+            date: firstDate,
+            categoryID: categoryID,
+            bankID: bankID,
+            trimmedNote: trimmedNote,
+            recurrenceGroupID: recurrenceGroupID
+        )
+        context.insert(item)
+
+        for date in dates.dropFirst() {
+            context.insert(makeTransaction(
+                from: draft,
+                date: date,
+                categoryID: categoryID,
+                bankID: bankID,
+                trimmedNote: trimmedNote,
+                recurrenceGroupID: recurrenceGroupID
+            ))
+        }
+        try context.save()
+        return item
+    }
+
+    private func updateRecurrence(on item: FinanceTransaction, from draft: TransactionDraft) {
+        guard draft.isRecurring else {
+            item.recurrenceGroupID = nil
+            item.recurrenceFrequency = nil
+            item.recurrenceEndDate = nil
+            return
+        }
+        item.recurrenceFrequency = draft.recurrenceFrequency
+        item.recurrenceEndDate = draft.recurrenceEndDate
+    }
+
+    private func makeTransaction(
+        from draft: TransactionDraft,
+        date: Date,
+        categoryID: UUID,
+        bankID: UUID?,
+        trimmedNote: String,
+        recurrenceGroupID: UUID?
+    ) -> FinanceTransaction {
+        FinanceTransaction(
             amount: draft.amount,
-            date: draft.date,
+            date: date,
             type: draft.type,
             currency: draft.currency,
             paymentMethod: draft.paymentMethod,
             categoryID: categoryID,
             bankID: bankID,
             note: trimmedNote.isEmpty ? nil : trimmedNote,
+            recurrenceGroupID: recurrenceGroupID,
+            recurrenceFrequency: draft.isRecurring ? draft.recurrenceFrequency : nil,
+            recurrenceEndDate: draft.isRecurring ? draft.recurrenceEndDate : nil,
             userID: userID
         )
-        context.insert(item)
-        try context.save()
-        return item
+    }
+
+    private func createFutureOccurrences(
+        from draft: TransactionDraft,
+        after date: Date,
+        recurrenceGroupID: UUID,
+        categoryID: UUID,
+        bankID: UUID?,
+        trimmedNote: String
+    ) {
+        let dates = draft.recurrenceFrequency.occurrenceDates(from: draft.date, through: draft.recurrenceEndDate)
+        for occurrenceDate in dates where occurrenceDate > date {
+            context.insert(makeTransaction(
+                from: draft,
+                date: occurrenceDate,
+                categoryID: categoryID,
+                bankID: bankID,
+                trimmedNote: trimmedNote,
+                recurrenceGroupID: recurrenceGroupID
+            ))
+        }
     }
 
     /// Yumuşak silme: kayıt mezar taşı olarak işaretlenir ki silme işlemi
@@ -288,6 +407,9 @@ final class SwiftDataTransactionRepository: TransactionRepositoryProtocol {
             existing.categoryID = dto.categoryID
             existing.bankID = dto.bankID
             existing.note = dto.note
+            existing.recurrenceGroupID = dto.recurrenceGroupID
+            existing.recurrenceFrequencyRaw = dto.recurrenceFrequency
+            existing.recurrenceEndDate = dto.recurrenceEndDate
             existing.updatedAt = dto.updatedAt
             existing.isRemoved = dto.isDeleted
             existing.syncedAt = .now
@@ -302,6 +424,9 @@ final class SwiftDataTransactionRepository: TransactionRepositoryProtocol {
                 categoryID: dto.categoryID,
                 bankID: dto.bankID,
                 note: dto.note,
+                recurrenceGroupID: dto.recurrenceGroupID,
+                recurrenceFrequency: dto.recurrenceFrequency.flatMap(RecurrenceFrequency.init(rawValue:)),
+                recurrenceEndDate: dto.recurrenceEndDate,
                 userID: dto.userID,
                 createdAt: dto.createdAt,
                 updatedAt: dto.updatedAt,

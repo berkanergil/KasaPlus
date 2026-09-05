@@ -1,0 +1,349 @@
+/* Türkçe (kaynak dil). Anahtarlar zaten Türkçe olduğu için değerler anahtarla aynıdır.
+   Bir Türkçe metni değiştirmek isterseniz buradaki değeri düzenleyin — kodu değiştirmeniz gerekmez.
+   Bu dosya olmadan iOS, Türkçe cihazlarda tek yerelleştirme olan en.lproj'a düşerdi. */
+
+/* Navigation and common actions */
+"Özet" = "Özet";
+"İşlemler" = "İşlemler";
+"Planlı" = "Planlı";
+"Planlı Ödemeler" = "Planlı Ödemeler";
+"Raporlar" = "Raporlar";
+"Ayarlar" = "Ayarlar";
+"Tamam" = "Tamam";
+"Kaydet" = "Kaydet";
+"Vazgeç" = "Vazgeç";
+"Kapat" = "Kapat";
+"Sil" = "Sil";
+"Düzenle" = "Düzenle";
+"Temizle" = "Temizle";
+"Uygula" = "Uygula";
+"Bitti" = "Bitti";
+"Tümü" = "Tümü";
+"Geri al" = "Geri al";
+"Ertele" = "Ertele";
+"Ödedim" = "Ödedim";
+"Ödedim, gidere ekle" = "Ödedim, gidere ekle";
+"Yeni işlem" = "Yeni işlem";
+"Yeni planlı ödeme" = "Yeni planlı ödeme";
+"Yeni banka" = "Yeni banka";
+"Yeni kategori" = "Yeni kategori";
+
+/* General fields */
+"Ödeme" = "Ödeme";
+"Tutar" = "Tutar";
+"Karşılığı" = "Karşılığı";
+"Para birimi" = "Para birimi";
+"Ödeme Yöntemi" = "Ödeme Yöntemi";
+"Yöntem" = "Yöntem";
+"Banka" = "Banka";
+"Kategori" = "Kategori";
+"Tür" = "Tür";
+"Tarih" = "Tarih";
+"Tarih ve saat" = "Tarih ve saat";
+"Not (opsiyonel)" = "Not (opsiyonel)";
+"Seçilmedi" = "Seçilmedi";
+"Sıfırla" = "Sıfırla";
+"Başlangıç tarihi" = "Başlangıç tarihi";
+"Bitiş tarihi" = "Bitiş tarihi";
+"Tekrarlama" = "Tekrarlama";
+"Tekrarlayan kayıt" = "Tekrarlayan kayıt";
+"Tekrarlayan ödeme" = "Tekrarlayan ödeme";
+"Hatırlat" = "Hatırlat";
+"Vade" = "Vade";
+"Vade tarihi" = "Vade tarihi";
+"Hızlı seçim" = "Hızlı seçim";
+"Yeni vade" = "Yeni vade";
+
+/* Transaction and payment screens */
+"Gelir" = "Gelir";
+"Gider" = "Gider";
+"Gelir Ekle" = "Gelir Ekle";
+"Gider Ekle" = "Gider Ekle";
+"İşlemi Düzenle" = "İşlemi Düzenle";
+"Planlı Ödemeyi Düzenle" = "Planlı Ödemeyi Düzenle";
+"Ödeme planla" = "Ödeme planla";
+"Ödeme yöntemi" = "Ödeme yöntemi";
+"Tüm zamanları göster" = "Tüm zamanları göster";
+"Ödenenleri göster" = "Ödenenleri göster";
+"Gecikmiş" = "Gecikmiş";
+"Hatırlatmalara izin ver" = "Hatırlatmalara izin ver";
+"Hatırlatmaları da iptal edilecek. Bu işlem geri alınamaz." = "Hatırlatmaları da iptal edilecek. Bu işlem geri alınamaz.";
+"Bu işlem geri alınamaz." = "Bu işlem geri alınamaz.";
+"Bu işlemi silmek istediğinize emin misiniz?" = "Bu işlemi silmek istediğinize emin misiniz?";
+"Bu tür için kategori yok." = "Bu tür için kategori yok.";
+"Bu türde kategori yok. Ayarlar > Kategoriler'den ekleyin." = "Bu türde kategori yok. Ayarlar > Kategoriler'den ekleyin.";
+"Gider kategorisi yok. Ayarlar > Kategoriler'den ekleyin." = "Gider kategorisi yok. Ayarlar > Kategoriler'den ekleyin.";
+"Banka yok. Ayarlar > Bankalar'dan ekleyin." = "Banka yok. Ayarlar > Bankalar'dan ekleyin.";
+"Kayıtlı banka yok." = "Kayıtlı banka yok.";
+"Kategori bulunamadı." = "Kategori bulunamadı.";
+"Silinmiş banka" = "Silinmiş banka";
+"Silinmiş kategori" = "Silinmiş kategori";
+"Filtrele" = "Filtrele";
+"Tüm filtreleri temizle" = "Tüm filtreleri temizle";
+"Filtreleri değiştirerek tekrar deneyin." = "Filtreleri değiştirerek tekrar deneyin.";
+"Kayıt yok" = "Kayıt yok";
+"Sonuç bulunamadı" = "Sonuç bulunamadı";
+
+/* Dashboard and reports */
+"Net Bakiye" = "Net Bakiye";
+"Yaklaşan Ödemeler" = "Yaklaşan Ödemeler";
+"Dönem Hareketi" = "Dönem Hareketi";
+"En Çok Harcama" = "En Çok Harcama";
+"Son İşlemler" = "Son İşlemler";
+"Toplam" = "Toplam";
+"Trend" = "Trend";
+"Kategori Dağılımı" = "Kategori Dağılımı";
+"Dönem Karşılaştırması" = "Dönem Karşılaştırması";
+"Dönem" = "Dönem";
+"Önceki dönem" = "Önceki dönem";
+"Sonraki dönem" = "Sonraki dönem";
+"Bu dönemde veri yok" = "Bu dönemde veri yok";
+"Bu dönemde henüz işlem eklenmemiş." = "Bu dönemde henüz işlem eklenmemiş.";
+"Bu dönemde kayıtlı bir gelir veya gider yok. Sağ üstteki + ile ekleyebilirsiniz." = "Bu dönemde kayıtlı bir gelir veya gider yok. Sağ üstteki + ile ekleyebilirsiniz.";
+"Rapor görebilmek için bu döneme ait gelir veya gider kaydı ekleyin." = "Rapor görebilmek için bu döneme ait gelir veya gider kaydı ekleyin.";
+"Haftalık, aylık ve yıllık kırılımlar." = "Haftalık, aylık ve yıllık kırılımlar.";
+"Tüm zamanlar" = "Tüm zamanlar";
+"Toplam Gelir" = "Toplam Gelir";
+"Toplam Gider" = "Toplam Gider";
+
+/* Categories and banks */
+"Kategoriler" = "Kategoriler";
+"Bankalar" = "Bankalar";
+"Banka Yönetimi" = "Banka Yönetimi";
+"Bankayı Düzenle" = "Bankayı Düzenle";
+"Kategoriyi Düzenle" = "Kategoriyi Düzenle";
+"Banka adı" = "Banka adı";
+"Kategori adı" = "Kategori adı";
+"Ad" = "Ad";
+"Renk" = "Renk";
+"Simge" = "Simge";
+"Renk seçeneği" = "Renk seçeneği";
+"Simge seçeneği" = "Simge seçeneği";
+"Gider kategorisi" = "Gider kategorisi";
+"Gelir kategorisi" = "Gelir kategorisi";
+"Kayıtlı banka yok. Sağ üstteki + ile ekleyebilirsiniz." = "Kayıtlı banka yok. Sağ üstteki + ile ekleyebilirsiniz.";
+"Sırayı değiştirmek için Düzenle'ye dokunup satırları sürükleyin. Bu sıra, kayıt ekranındaki banka listesinde de geçerlidir." = "Sırayı değiştirmek için Düzenle'ye dokunup satırları sürükleyin. Bu sıra, kayıt ekranındaki banka listesinde de geçerlidir.";
+"Sırayı değiştirmek için Düzenle'ye dokunup satırları sürükleyin. Bu sıra, kayıt ekranındaki kategori seçiminde de geçerlidir." = "Sırayı değiştirmek için Düzenle'ye dokunup satırları sürükleyin. Bu sıra, kayıt ekranındaki kategori seçiminde de geçerlidir.";
+
+/* Settings */
+"Profil" = "Profil";
+"Güvenlik" = "Güvenlik";
+"Bildirimler" = "Bildirimler";
+"Bulut Yedekleme" = "Bulut Yedekleme";
+"Yönetim" = "Yönetim";
+"Para Birimi" = "Para Birimi";
+"Görünüm" = "Görünüm";
+"Dil" = "Dil";
+"Hakkında" = "Hakkında";
+"Durum" = "Durum";
+"Sürüm" = "Sürüm";
+"Veri saklama" = "Veri saklama";
+"Cihazda" = "Cihazda";
+"Ana para birimi" = "Ana para birimi";
+"Yeni kayıt birimi" = "Yeni kayıt birimi";
+"Kurları güncelle" = "Kurları güncelle";
+"Tema" = "Tema";
+"Uygulama dili" = "Uygulama dili";
+"Şimdi Yedekle" = "Şimdi Yedekle";
+"Oturumu kapat" = "Oturumu kapat";
+"iOS Ayarları'nı aç" = "iOS Ayarları'nı aç";
+"Kurulu hatırlatma" = "Kurulu hatırlatma";
+"Son yedekleme" = "Son yedekleme";
+"Tarih ve sayı biçimleri seçtiğiniz dile göre güncellenir." = "Tarih ve sayı biçimleri seçtiğiniz dile göre güncellenir.";
+"Kategori ve banka listelerini düzenleyebilir, sıralayabilir ve silebilirsiniz." = "Kategori ve banka listelerini düzenleyebilir, sıralayabilir ve silebilirsiniz.";
+"Raporlarda tüm tutarlar ana para birimine çevrilerek toplanır." = "Raporlarda tüm tutarlar ana para birimine çevrilerek toplanır.";
+"Kasa+ — günlük gelir/gider takibi." = "Kasa+ — günlük gelir/gider takibi.";
+"Verileriniz cihazınızda kalır. Tekrar giriş yaptığınızda kaldığınız yerden devam edersiniz." = "Verileriniz cihazınızda kalır. Tekrar giriş yaptığınızda kaldığınız yerden devam edersiniz.";
+"Bu cihazda biyometrik doğrulama veya cihaz parolası tanımlı değil." = "Bu cihazda biyometrik doğrulama veya cihaz parolası tanımlı değil.";
+"Uygulama açıldığında ve arka plandan döndüğünde kimlik doğrulaması istenir." = "Uygulama açıldığında ve arka plandan döndüğünde kimlik doğrulaması istenir.";
+"Planlı ödemeler için vadeden 1 hafta önce, 1 gün önce ve vade günü hatırlatma gönderilir. Vade günü bildiriminde \"Ödedim\" ve \"Ertele\" seçenekleri bulunur." = "Planlı ödemeler için vadeden 1 hafta önce, 1 gün önce ve vade günü hatırlatma gönderilir. Vade günü bildiriminde \"Ödedim\" ve \"Ertele\" seçenekleri bulunur.";
+
+/* Authentication */
+"Kasa+ kilitli" = "Kasa+ kilitli";
+"Devam etmek için kimliğinizi doğrulayın." = "Devam etmek için kimliğinizi doğrulayın.";
+"Kasa+" = "Kasa+";
+"Günlük gelir ve giderlerinizi\nsaniyeler içinde kaydedin." = "Günlük gelir ve giderlerinizi\nsaniyeler içinde kaydedin.";
+"Geliştirme modunda devam et" = "Geliştirme modunda devam et";
+"Verileriniz cihazınızda saklanır ve yalnızca sizin hesabınıza yedeklenir." = "Verileriniz cihazınızda saklanır ve yalnızca sizin hesabınıza yedeklenir.";
+
+/* Input placeholders and short labels */
+"Başlık — örn. Dükkân kirası" = "Başlık — örn. Dükkân kirası";
+"Örn. 3 aylık peşin" = "Örn. 3 aylık peşin";
+"Örn. Market alışverişi" = "Örn. Market alışverişi";
+"Örn. Garanti BBVA" = "Örn. Garanti BBVA";
+"Örn. Kozmetik Satışı" = "Örn. Kozmetik Satışı";
+"1 gün" = "1 gün";
+"3 gün" = "3 gün";
+"1 hafta" = "1 hafta";
+"15 gün" = "15 gün";
+"1 ay" = "1 ay";
+"Yeni Planlı Ödeme" = "Yeni Planlı Ödeme";
+"Yeni Banka" = "Yeni Banka";
+"Yeni Kategori" = "Yeni Kategori";
+
+/* Static enum and preference values */
+"Nakit" = "Nakit";
+"Kredi Kartı" = "Kredi Kartı";
+"Banka Kartı" = "Banka Kartı";
+"Banka Transferi" = "Banka Transferi";
+"Çek" = "Çek";
+"Kredi K." = "Kredi K.";
+"Banka K." = "Banka K.";
+"Havale" = "Havale";
+"Hafta" = "Hafta";
+"Ay" = "Ay";
+"Yıl" = "Yıl";
+"Her hafta" = "Her hafta";
+"Her ay" = "Her ay";
+"Haftalık" = "Haftalık";
+"Aylık" = "Aylık";
+"Bekliyor" = "Bekliyor";
+"Ödendi" = "Ödendi";
+"İptal" = "İptal";
+"Sistem" = "Sistem";
+"Aydınlık" = "Aydınlık";
+"Karanlık" = "Karanlık";
+"Sistem dili" = "Sistem dili";
+"Türkçe" = "Türkçe";
+"Türk Lirası" = "Türk Lirası";
+"ABD Doları" = "ABD Doları";
+"İngiliz Sterlini" = "İngiliz Sterlini";
+
+/* Dynamic format strings used through L10n.format */
+"%lld kayıt oluşturulacak" = "%lld kayıt oluşturulacak";
+"%lld planlı ödeme oluşturulacak" = "%lld planlı ödeme oluşturulacak";
+"%lld işlem" = "%lld işlem";
+"%lld ödeme" = "%lld ödeme";
+"%lld× ertelendi" = "%lld× ertelendi";
+"%lld filtre etkin" = "%lld filtre etkin";
+"Gelirin %@'i gidere gitti." = "Gelirin %@'i gidere gitti.";
+"Bu dönemde %@ kaydı yok." = "Bu dönemde %@ kaydı yok.";
+"%@ — %@ tutarında bir gider kaydı oluşturulacak." = "%@ — %@ tutarında bir gider kaydı oluşturulacak.";
+"Önce %@" = "Önce %@";
+"%@ ile aç" = "%@ ile aç";
+"%lld ödeme sıraya alınmadı." = "%lld ödeme sıraya alınmadı.";
+"%@ ödendi olarak işaretlendi ve giderlere eklendi." = "%@ ödendi olarak işaretlendi ve giderlere eklendi.";
+"İşlem tamamlanamadı: %@" = "İşlem tamamlanamadı: %@";
+"Giriş tamamlanamadı: %@" = "Giriş tamamlanamadı: %@";
+"Son güncelleme: %@" = "Son güncelleme: %@";
+"%lld gün kaldı" = "%lld gün kaldı";
+"%lld gün gecikti" = "%lld gün gecikti";
+"Ödendi · %@" = "Ödendi · %@";
+"Yaklaşan ödeme: %@" = "Yaklaşan ödeme: %@";
+"Yarın ödeme günü: %@" = "Yarın ödeme günü: %@";
+"Bugün ödeme günü: %@" = "Bugün ödeme günü: %@";
+"%@%@ — vade %@." = "%@%@ — vade %@.";
+"%@%@ — ödeme yarın yapılmalı." = "%@%@ — ödeme yarın yapılmalı.";
+"%@%@ — bu tutar giderlere eklensin mi?" = "%@%@ — bu tutar giderlere eklensin mi?";
+
+
+/* ===== Added: strings routed through L10n and previously untranslated literals ===== */
+
+/* Enum and formatter values */
+"Euro" = "Euro";
+"Bugün" = "Bugün";
+"Dün" = "Dün";
+"Bugün ödenecek" = "Bugün ödenecek";
+"Yarın ödenecek" = "Yarın ödenecek";
+"1 gün gecikti" = "1 gün gecikti";
+"Bu hafta" = "Bu hafta";
+"İleri tarihli" = "İleri tarihli";
+"Ödenenler" = "Ödenenler";
+"Net" = "Net";
+
+/* Authentication and app lock */
+"Apple kimlik doğrulama belirteci alınamadı." = "Apple kimlik doğrulama belirteci alınamadı.";
+"Beklenmeyen kimlik bilgisi türü." = "Beklenmeyen kimlik bilgisi türü.";
+"Geliştirme Kullanıcısı" = "Geliştirme Kullanıcısı";
+"Cihaz Parolası" = "Cihaz Parolası";
+"Cihaz Parolasını Kullan" = "Cihaz Parolasını Kullan";
+"Kasa+ verilerinize erişmek için kimliğinizi doğrulayın." = "Kasa+ verilerinize erişmek için kimliğinizi doğrulayın.";
+"Doğrulama başarısız. Tekrar deneyin." = "Doğrulama başarısız. Tekrar deneyin.";
+"Uygulama kilidini etkinleştirmek için kimliğinizi doğrulayın." = "Uygulama kilidini etkinleştirmek için kimliğinizi doğrulayın.";
+"Doğrulanıyor…" = "Doğrulanıyor…";
+"%@ ile kilitle" = "%@ ile kilitle";
+"Kasa+ Kullanıcısı" = "Kasa+ Kullanıcısı";
+"Apple ID ile giriş yapıldı" = "Apple ID ile giriş yapıldı";
+
+/* Sign-in screen */
+"Hızlı kayıt" = "Hızlı kayıt";
+"Gelir veya gideri iki dokunuşla ekleyin." = "Gelir veya gideri iki dokunuşla ekleyin.";
+"Net raporlar" = "Net raporlar";
+"İnternetsiz çalışır" = "İnternetsiz çalışır";
+"Veriler cihazınızda; bağlantı gelince yedeklenir." = "Veriler cihazınızda; bağlantı gelince yedeklenir.";
+
+/* Records, validation and empty states */
+"Kayıt eksik. Tutar ve kategori zorunludur." = "Kayıt eksik. Tutar ve kategori zorunludur.";
+"Kayıt bulunamadı." = "Kayıt bulunamadı.";
+"Kayıt kaydedilemedi." = "Kayıt kaydedilemedi.";
+"Lütfen tutar girin ve bir kategori seçin." = "Lütfen tutar girin ve bir kategori seçin.";
+"Lütfen bir kategori adı girin." = "Lütfen bir kategori adı girin.";
+"Başlık, tutar ve kategori zorunludur." = "Başlık, tutar ve kategori zorunludur.";
+"Henüz kayıt yok" = "Henüz kayıt yok";
+"Filtreleri temizle" = "Filtreleri temizle";
+"Gider ekle" = "Gider ekle";
+"Hazır kategori" = "Hazır kategori";
+"Bankayı sil" = "Bankayı sil";
+"Planlanan ödemeyi sil" = "Planlanan ödemeyi sil";
+"%@ silinecek." = "%@ silinecek.";
+"%@ kategorisi silinecek." = "%@ kategorisi silinecek.";
+"%@ bankasına bağlı %lld işlem var. Banka silinse de işlemleriniz korunur; listede \"Silinmiş banka\" olarak görünür." = "%@ bankasına bağlı %lld işlem var. Banka silinse de işlemleriniz korunur; listede \"Silinmiş banka\" olarak görünür.";
+"%@ kategorisine bağlı %lld işlem var. Kategori silinse de işlemleriniz korunur; listede \"Silinmiş kategori\" olarak görünür." = "%@ kategorisine bağlı %lld işlem var. Kategori silinse de işlemleriniz korunur; listede \"Silinmiş kategori\" olarak görünür.";
+"Başlangıç ve bitiş günleri dahil olmak üzere seçilen her dönem için ayrı bir gelir/gider kaydı oluşturulur." = "Başlangıç ve bitiş günleri dahil olmak üzere seçilen her dönem için ayrı bir gelir/gider kaydı oluşturulur.";
+
+/* Cloud backup and exchange rates */
+"Bulut yedekleme yapılandırılmadı" = "Bulut yedekleme yapılandırılmadı";
+"Bulut yedekleme henüz yapılandırılmadı. Kurulum adımları için README dosyasına bakın." = "Bulut yedekleme henüz yapılandırılmadı. Kurulum adımları için README dosyasına bakın.";
+"Yedekleme için oturum açmanız gerekiyor." = "Yedekleme için oturum açmanız gerekiyor.";
+"Devre dışı" = "Devre dışı";
+"Henüz yedeklenmedi" = "Henüz yedeklenmedi";
+"Yedekleme tamamlandı." = "Yedekleme tamamlandı.";
+"Yedekleme yapılamadı." = "Yedekleme yapılamadı.";
+"Kur henüz güncellenmedi" = "Kur henüz güncellenmedi";
+"Kur bilgisi güncellenemedi. Son bilinen kur kullanılıyor." = "Kur bilgisi güncellenemedi. Son bilinen kur kullanılıyor.";
+"Veriler uygulama her açıldığında ve arka planda düzenli olarak yedeklenir." = "Veriler uygulama her açıldığında ve arka planda düzenli olarak yedeklenir.";
+"Uygulama tam fonksiyonel çalışmakta olup, cihazınızdaki veriler iCloud aracılığıyla yedeklenebilir." = "Uygulama tam fonksiyonel çalışmakta olup, cihazınızdaki veriler iCloud aracılığıyla yedeklenebilir.";
+"Bazı işlemlerin kuru bulunamadı; tutarlar çevrilmeden toplandı. İnternet bağlantısı gelince kur güncellenecek." = "Bazı işlemlerin kuru bulunamadı; tutarlar çevrilmeden toplandı. İnternet bağlantısı gelince kur güncellenecek.";
+"Bazı ödemelerin kuru bulunamadı; toplam çevrilmeden hesaplandı." = "Bazı ödemelerin kuru bulunamadı; toplam çevrilmeden hesaplandı.";
+
+/* Notifications */
+"İzin verildi" = "İzin verildi";
+"Kapalı — Ayarlar ▸ Bildirimler" = "Kapalı — Ayarlar ▸ Bildirimler";
+"Henüz sorulmadı" = "Henüz sorulmadı";
+"Geçici izin" = "Geçici izin";
+"Bilinmiyor" = "Bilinmiyor";
+"Kasa+ Hatırlatma" = "Kasa+ Hatırlatma";
+"Bu bir test bildirimidir." = "Bu bir test bildirimidir.";
+"Bildirimi Test Et (3 sn)" = "Bildirimi Test Et (3 sn)";
+"Bildirimlere izin ver" = "Bildirimlere izin ver";
+"iOS'un bildirim sınırı nedeniyle en yakın vadeli 20 ödeme hatırlatılıyor; %lld ödeme sıraya alınmadı." = "iOS'un bildirim sınırı nedeniyle en yakın vadeli 20 ödeme hatırlatılıyor; %lld ödeme sıraya alınmadı.";
+"Bildirimler kapalı. Hatırlatma alabilmek için iOS Ayarlar ▸ Kasa+ ▸ Bildirimler'i açın." = "Bildirimler kapalı. Hatırlatma alabilmek için iOS Ayarlar ▸ Kasa+ ▸ Bildirimler'i açın.";
+"Hatırlatmalar yeni vadeye göre yeniden kurulur: 1 hafta önce, 1 gün önce ve vade günü." = "Hatırlatmalar yeni vadeye göre yeniden kurulur: 1 hafta önce, 1 gün önce ve vade günü.";
+
+/* Dashboard, reports and planned payments */
+"Günaydın" = "Günaydın";
+"İyi günler" = "İyi günler";
+"İyi akşamlar" = "İyi akşamlar";
+"Geçen haftaya göre" = "Geçen haftaya göre";
+"Geçen aya göre" = "Geçen aya göre";
+"Geçen yıla göre" = "Geçen yıla göre";
+"Geçen hafta" = "Geçen hafta";
+"Geçen ay" = "Geçen ay";
+"Geçen yıl" = "Geçen yıl";
+"Günlük kırılım" = "Günlük kırılım";
+"Aylık kırılım" = "Aylık kırılım";
+"Bekleyen toplam" = "Bekleyen toplam";
+"Planlı ödeme yok" = "Planlı ödeme yok";
+"Kira, fatura, çek veya tedarikçi ödemelerinizi buraya ekleyin. Vadeden 1 hafta ve 1 gün önce hatırlatırız." = "Kira, fatura, çek veya tedarikçi ödemelerinizi buraya ekleyin. Vadeden 1 hafta ve 1 gün önce hatırlatırız.";
+"%@ artış" = "%@ artış";
+"%@ azalış" = "%@ azalış";
+
+/* Accessibility and row details */
+"%@ ekle" = "%@ ekle";
+"· %lld× ertelendi" = "· %lld× ertelendi";
+
+/* Category shortcuts */
+"Kategorileri düzenle" = "Kategorileri düzenle";
+"Bu türde kategori yok. Eklemek için dokunun." = "Bu türde kategori yok. Eklemek için dokunun.";
+"Gider kategorisi yok. Eklemek için dokunun." = "Gider kategorisi yok. Eklemek için dokunun.";
+"Kategori bulunamadı. Eklemek için dokunun." = "Kategori bulunamadı. Eklemek için dokunun.";

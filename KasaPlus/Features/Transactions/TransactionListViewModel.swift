@@ -29,7 +29,7 @@ final class TransactionListViewModel {
     }
 
     var rangeTitle: String {
-        showsAllTime ? "Tüm zamanlar" : range.title
+        showsAllTime ? L10n.text("Tüm zamanlar") : range.title
     }
 
     func updateConverter(_ converter: CurrencyConverter) {
